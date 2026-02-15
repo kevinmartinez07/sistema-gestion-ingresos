@@ -1,0 +1,26 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con gradiente -->
+  <rect width="32" height="32" rx="6" fill="url(#gradient)"/>
+  
+  <!-- Gráfico ascendente - símbolo de crecimiento financiero -->
+  <path d="M6 22 L10 18 L14 20 L18 14 L22 16 L26 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Puntos en el gráfico -->
+  <circle cx="6" cy="22" r="1.5" fill="white"/>
+  <circle cx="10" cy="18" r="1.5" fill="white"/>
+  <circle cx="14" cy="20" r="1.5" fill="white"/>
+  <circle cx="18" cy="14" r="1.5" fill="white"/>
+  <circle cx="22" cy="16" r="1.5" fill="white"/>
+  <circle cx="26" cy="10" r="1.5" fill="white"/>
+  
+  <!-- Flecha hacia arriba -->
+  <path d="M24 12 L26 10 L28 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Definiciones de gradiente -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
