@@ -4,11 +4,13 @@ import { ExtendedUser } from '@/types/user.types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user as ExtendedUser | undefined;
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     await authClient.signOut();
@@ -26,7 +28,20 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className='flex h-screen bg-white overflow-hidden'>
-      <aside className='w-64 h-screen bg-gradient-to-b from-gray-800 to-gray-900 flex flex-col shadow-xl'>
+      {/* Overlay para móvil */}
+      {sidebarOpen && (
+        <div
+          className='fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden'
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed lg:static w-64 h-screen bg-gradient-to-b from-gray-800 to-gray-900 flex flex-col shadow-xl z-50 transition-transform duration-300 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
         <div className='p-6'>
           <Link href='/'>
             <div className='bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg p-4 text-center shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-200'>
@@ -39,7 +54,11 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <nav className='flex-1 p-4 space-y-3'>
-          <Link href='/movements' className={navButtonClass('/movements')}>
+          <Link
+            href='/movements'
+            className={navButtonClass('/movements')}
+            onClick={() => setSidebarOpen(false)}
+          >
             <svg
               className='w-5 h-5'
               fill='none'
@@ -58,7 +77,11 @@ export default function Layout({ children }: LayoutProps) {
 
           {user?.role === 'ADMIN' && (
             <>
-              <Link href='/users' className={navButtonClass('/users')}>
+              <Link
+                href='/users'
+                className={navButtonClass('/users')}
+                onClick={() => setSidebarOpen(false)}
+              >
                 <svg
                   className='w-5 h-5'
                   fill='none'
@@ -74,7 +97,11 @@ export default function Layout({ children }: LayoutProps) {
                 </svg>
                 <span>Usuarios</span>
               </Link>
-              <Link href='/reports' className={navButtonClass('/reports')}>
+              <Link
+                href='/reports'
+                className={navButtonClass('/reports')}
+                onClick={() => setSidebarOpen(false)}
+              >
                 <svg
                   className='w-5 h-5'
                   fill='none'
@@ -177,15 +204,38 @@ export default function Layout({ children }: LayoutProps) {
       </aside>
 
       <div className='flex-1 flex flex-col h-screen overflow-hidden'>
-        {router.pathname !== '/' && (
-          <header className='bg-gradient-to-r from-brand-600 to-brand-700 shadow-lg py-6 flex-shrink-0'>
-            <h1 className='text-2xl font-bold text-center text-white'>
-              Sistema de gestión de ingresos y egresos
-            </h1>
-          </header>
-        )}
+        <header className='bg-gradient-to-r from-brand-600 to-brand-700 shadow-lg py-4 lg:py-6 flex-shrink-0'>
+          <div className='flex items-center gap-4 px-4 lg:px-0'>
+            {/* Botón hamburguesa para móvil */}
+            <button
+              className='lg:hidden text-white'
+              onClick={() => setSidebarOpen(true)}
+            >
+              <svg
+                className='w-6 h-6'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M4 6h16M4 12h16M4 18h16'
+                />
+              </svg>
+            </button>
+            {router.pathname !== '/' && (
+              <h1 className='text-lg lg:text-2xl font-bold text-white flex-1 text-center lg:text-center'>
+                Sistema de gestión de ingresos y egresos
+              </h1>
+            )}
+            {/* Espacio para balancear el botón hamburguesa */}
+            <div className='lg:hidden w-6'></div>
+          </div>
+        </header>
 
-        <main className='flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100'>
+        <main className='flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 p-4 lg:p-6'>
           {children}
         </main>
       </div>

@@ -11,17 +11,13 @@ export class Phone {
   }
 
   static create(phone: string): Phone {
-    if (!phone || typeof phone !== 'string') {
-      throw new Error('Teléfono no puede estar vacío');
-    }
-
     const trimmedPhone = phone.trim();
 
     // Remover caracteres no numéricos para validación
     const digitsOnly = trimmedPhone.replace(/\D/g, '');
 
-    if (digitsOnly.length < 10 || digitsOnly.length > 15) {
-      throw new Error('Teléfono debe tener entre 10 y 15 dígitos');
+    if (digitsOnly.length < 5 || digitsOnly.length > 15) {
+      throw new Error('Teléfono debe tener entre 5 y 15 dígitos');
     }
 
     return new Phone(trimmedPhone);

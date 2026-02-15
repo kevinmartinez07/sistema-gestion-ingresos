@@ -204,61 +204,60 @@ export default function MovementsPage() {
 
   return (
     <Layout>
-      <div className='py-8'>
-        <div className='max-w-7xl mx-auto px-4'>
-          {/* Header */}
-          <div className='flex justify-between items-center mb-8'>
-            <div>
-              <h1 className='text-3xl font-bold text-gray-900 pb-2 border-b-4 border-brand-500 inline-block'>
-                Ingresos y egresos
-              </h1>
-            </div>
-            {isAdmin && (
-              <Button
-                variant='primary'
-                onClick={() => setShowModal(true)}
-                icon={
-                  <svg
-                    className='w-5 h-5'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M12 4v16m8-8H4'
-                    />
-                  </svg>
-                }
-              >
-                Nuevo movimiento
-              </Button>
-            )}
+      <div className='max-w-7xl mx-auto'>
+        {/* Header */}
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 pb-2 border-b-4 border-brand-500 inline-block'>
+              Ingresos y egresos
+            </h1>
           </div>
-
-          <MovementStats
-            totalIncome={stats.totalIncome}
-            totalExpense={stats.totalExpense}
-            balance={stats.balance}
-            count={stats.count}
-          />
-
-          <MovementFilters
-            searchTerm={searchTerm}
-            filterType={filterType}
-            onSearchChange={setSearchTerm}
-            onFilterChange={setFilterType}
-          />
-
-          <MovementTable
-            movements={filteredMovements}
-            isAdmin={isAdmin}
-            searchTerm={searchTerm}
-            onDelete={handleDelete}
-          />
+          {isAdmin && (
+            <Button
+              variant='primary'
+              onClick={() => setShowModal(true)}
+              icon={
+                <svg
+                  className='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M12 4v16m8-8H4'
+                  />
+                </svg>
+              }
+            >
+              <span className='hidden sm:inline'>Nuevo movimiento</span>
+              <span className='sm:hidden'>Nuevo</span>
+            </Button>
+          )}
         </div>
+
+        <MovementStats
+          totalIncome={stats.totalIncome}
+          totalExpense={stats.totalExpense}
+          balance={stats.balance}
+          count={stats.count}
+        />
+
+        <MovementFilters
+          searchTerm={searchTerm}
+          filterType={filterType}
+          onSearchChange={setSearchTerm}
+          onFilterChange={setFilterType}
+        />
+
+        <MovementTable
+          movements={filteredMovements}
+          isAdmin={isAdmin}
+          searchTerm={searchTerm}
+          onDelete={handleDelete}
+        />
       </div>
 
       <Modal

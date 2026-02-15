@@ -15,10 +15,10 @@ import {
 export function MonthlyChart({ data }: MonthlyChartProps) {
   return (
     <Card>
-      <h3 className='text-lg font-semibold text-gray-900 mb-4 flex items-center'>
-        <span className='bg-accent-100 rounded-full p-2 mr-3'>
+      <h3 className='text-base sm:text-lg font-semibold text-gray-900 mb-4 flex items-center'>
+        <span className='bg-accent-100 rounded-full p-2 mr-2 sm:mr-3 flex-shrink-0'>
           <svg
-            className='w-5 h-5 text-accent-600'
+            className='w-4 h-4 sm:w-5 sm:h-5 text-accent-600'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -31,7 +31,7 @@ export function MonthlyChart({ data }: MonthlyChartProps) {
             />
           </svg>
         </span>
-        Movimientos por Mes
+        <span className='truncate'>Movimientos por Mes</span>
       </h3>
       {data.length > 0 ? (
         <ResponsiveContainer width='100%' height={300}>

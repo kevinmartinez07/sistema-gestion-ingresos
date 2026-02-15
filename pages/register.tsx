@@ -15,6 +15,7 @@ export default function RegisterPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    phone: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -51,6 +52,7 @@ export default function RegisterPage() {
         email: form.email,
         password: form.password,
         name: form.name,
+        ...(form.phone && { phone: form.phone }),
       });
 
       if (result.error) {
@@ -177,6 +179,21 @@ export default function RegisterPage() {
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
                 placeholder='Juan Pérez'
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-1'>
+                Teléfono{' '}
+                <span className='text-gray-500 text-xs'>(opcional)</span>
+              </label>
+              <input
+                type='number'
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                placeholder='3001234567'
                 disabled={loading}
               />
             </div>

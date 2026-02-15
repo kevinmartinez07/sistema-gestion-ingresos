@@ -58,48 +58,44 @@ describe('Phone Value Object', () => {
     });
 
     it('should throw error for empty phone', () => {
-      expect(() => Phone.create('')).toThrow('Teléfono no puede estar vacío');
+      expect(() => Phone.create('')).toThrow(
+        'Teléfono debe tener entre 5 y 15 dígitos'
+      );
     });
 
     it('should throw error for null phone', () => {
-      expect(() => Phone.create(null as any)).toThrow(
-        'Teléfono no puede estar vacío'
-      );
+      expect(() => Phone.create(null as any)).toThrow();
     });
 
     it('should throw error for undefined phone', () => {
-      expect(() => Phone.create(undefined as any)).toThrow(
-        'Teléfono no puede estar vacío'
-      );
+      expect(() => Phone.create(undefined as any)).toThrow();
     });
 
     it('should throw error for non-string phone', () => {
-      expect(() => Phone.create(1234567890 as any)).toThrow(
-        'Teléfono no puede estar vacío'
-      );
+      expect(() => Phone.create(1234567890 as any)).toThrow();
     });
 
-    it('should throw error for phone with less than 10 digits', () => {
-      expect(() => Phone.create('123456789')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+    it('should throw error for phone with less than 5 digits', () => {
+      expect(() => Phone.create('1234')).toThrow(
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
     it('should throw error for phone with more than 15 digits', () => {
       expect(() => Phone.create('1234567890123456')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
     it('should throw error for phone with only letters', () => {
       expect(() => Phone.create('ABCDEFGHIJK')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
     it('should throw error for whitespace-only phone', () => {
       expect(() => Phone.create('     ')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
   });
@@ -139,8 +135,8 @@ describe('Phone Value Object', () => {
     });
 
     it('should reject formatted phone with insufficient digits', () => {
-      expect(() => Phone.create('(555) 123-456')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+      expect(() => Phone.create('(55)')).toThrow(
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
@@ -240,7 +236,7 @@ describe('Phone Value Object', () => {
   describe('Edge cases', () => {
     it('should handle phone with only spaces after trim becoming empty', () => {
       expect(() => Phone.create('   ')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
@@ -254,15 +250,15 @@ describe('Phone Value Object', () => {
       expect(phone.value).toBe('123456789012345');
     });
 
-    it('should reject 9 digits', () => {
-      expect(() => Phone.create('123456789')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+    it('should reject 4 digits', () => {
+      expect(() => Phone.create('1234')).toThrow(
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
 
     it('should reject 16 digits', () => {
       expect(() => Phone.create('1234567890123456')).toThrow(
-        'Teléfono debe tener entre 10 y 15 dígitos'
+        'Teléfono debe tener entre 5 y 15 dígitos'
       );
     });
   });

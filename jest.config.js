@@ -1,6 +1,4 @@
-import type { Config } from 'jest';
-
-const config: Config = {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
@@ -24,5 +22,3 @@ const config: Config = {
     '!lib/**/index.ts',
   ],
 };
-
-export default config;

@@ -47,7 +47,7 @@ export function Modal({
   };
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4'>
       <div
         className='fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity animate-fade-in'
         onClick={closeOnBackdrop && !disableClose ? onClose : undefined}
@@ -55,26 +55,28 @@ export function Modal({
 
       <div
         className={cn(
-          'relative bg-white rounded-2xl shadow-2xl w-full animate-scale-in',
+          'relative bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full animate-scale-in max-h-[95vh] overflow-hidden flex flex-col',
           sizeClasses[size]
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className='flex items-center justify-between px-6 py-4 border-b border-gray-200'>
-            <h2 className='text-xl font-semibold text-gray-900'>{title}</h2>
+          <div className='flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex-shrink-0'>
+            <h2 className='text-lg sm:text-xl font-semibold text-gray-900 truncate pr-2'>
+              {title}
+            </h2>
             <button
               onClick={onClose}
               disabled={disableClose}
               className={cn(
-                'text-gray-400 transition-colors',
+                'text-gray-400 transition-colors flex-shrink-0',
                 disableClose
                   ? 'cursor-not-allowed opacity-50'
                   : 'hover:text-gray-600'
               )}
             >
               <svg
-                className='w-6 h-6'
+                className='w-5 h-5 sm:w-6 sm:h-6'
                 fill='none'
                 stroke='currentColor'
                 viewBox='0 0 24 24'
@@ -90,7 +92,7 @@ export function Modal({
           </div>
         )}
 
-        <div className='px-6 py-4 max-h-[calc(100vh-200px)] overflow-y-auto'>
+        <div className='px-4 sm:px-6 py-3 sm:py-4 overflow-y-auto flex-1'>
           {children}
         </div>
       </div>

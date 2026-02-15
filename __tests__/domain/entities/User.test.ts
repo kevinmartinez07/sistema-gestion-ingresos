@@ -89,7 +89,7 @@ describe('User Entity', () => {
           undefined,
           '123'
         );
-      }).toThrow('Teléfono debe tener entre 10 y 15 dígitos');
+      }).toThrow('Teléfono debe tener entre 5 y 15 dígitos');
     });
   });
 

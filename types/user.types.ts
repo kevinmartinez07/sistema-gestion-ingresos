@@ -64,6 +64,7 @@ export interface UserSearchProps {
 
 export interface UserEditFormProps {
   user: UserResponseDTO | null;
+  currentUserId?: string;
   onClose: () => void;
   onSuccess: () => void;
   onError: (error: string) => void;
