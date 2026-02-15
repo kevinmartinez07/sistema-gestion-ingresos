@@ -1,10 +1,10 @@
 import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import {
-  DistributionChart,
-  MonthlyChart,
-  RecentMovementsTable,
-  ReportStats,
+    DistributionChart,
+    MonthlyChart,
+    RecentMovementsTable,
+    ReportStats,
 } from '@/components/reports';
 import { AlertModal, Button } from '@/components/ui';
 import { authClient } from '@/lib/auth/client';
@@ -162,68 +162,67 @@ export default function ReportsPage() {
 
   return (
     <Layout>
-      <div className='py-8'>
-        <div className='max-w-7xl mx-auto px-4'>
-          <div className='flex justify-between items-center mb-8'>
-            <div>
-              <h1 className='text-3xl font-bold text-gray-900 pb-2 border-b-4 border-success-500 inline-block'>
-                Reportes Financieros
-              </h1>
-              <p className='text-gray-600 mt-2'>
-                Análisis detallado de ingresos y egresos
-              </p>
-            </div>
-            <Button
-              onClick={downloadCSV}
-              variant='success'
-              icon={
-                <svg
-                  className='w-5 h-5'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                  />
-                </svg>
-              }
-            >
-              Descargar reporte
-            </Button>
+      <div className='max-w-7xl mx-auto'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 pb-2 border-b-4 border-success-500 inline-block'>
+              Reportes Financieros
+            </h1>
+            <p className='text-gray-600 mt-2 text-sm sm:text-base'>
+              Análisis detallado de ingresos y egresos
+            </p>
           </div>
-
-          {balance && (
-            <ReportStats
-              balance={balance}
-              movementsCount={movements.length}
-              avgIncome={avgIncome}
-              avgExpense={avgExpense}
-            />
-          )}
-
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8'>
-            <DistributionChart
-              totalIncome={balance?.totalIncome || 0}
-              totalExpense={balance?.totalExpense || 0}
-            />
-
-            <MonthlyChart data={monthlyData} />
-          </div>
-
-          <RecentMovementsTable movements={movements} />
-
-          <AlertModal
-            isOpen={alertModal.isOpen}
-            onClose={() => setAlertModal({ ...alertModal, isOpen: false })}
-            type={alertModal.type}
-            title={alertModal.title}
-            message={alertModal.message}
-          />
+          <Button
+            onClick={downloadCSV}
+            variant='success'
+            icon={
+              <svg
+                className='w-5 h-5'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                />
+              </svg>
+            }
+          >
+            <span className='hidden sm:inline'>Descargar reporte</span>
+            <span className='sm:hidden'>Descargar</span>
+          </Button>
         </div>
+
+        {balance && (
+          <ReportStats
+            balance={balance}
+            movementsCount={movements.length}
+            avgIncome={avgIncome}
+            avgExpense={avgExpense}
+          />
+        )}
+
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8'>
+          <DistributionChart
+            totalIncome={balance?.totalIncome || 0}
+            totalExpense={balance?.totalExpense || 0}
+          />
+
+          <MonthlyChart data={monthlyData} />
+        </div>
+
+        <RecentMovementsTable movements={movements} />
+
+        <AlertModal
+          isOpen={alertModal.isOpen}
+          onClose={() => setAlertModal({ ...alertModal, isOpen: false })}
+          type={alertModal.type}
+          title={alertModal.title}
+          message={alertModal.message}
+        />
       </div>
     </Layout>
   );

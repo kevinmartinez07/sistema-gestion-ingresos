@@ -11,7 +11,7 @@ export function UserRow({
 }: UserRowProps) {
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className='min-w-[200px]'>
         <div className='flex items-center gap-3'>
           {user.image ? (
             <Image
@@ -19,23 +19,23 @@ export function UserRow({
               alt={user.name || 'Usuario'}
               width={32}
               height={32}
-              className='h-8 w-8 rounded-full'
+              className='h-8 w-8 rounded-full flex-shrink-0'
             />
           ) : (
-            <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center'>
+            <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0'>
               <span className='text-white font-semibold text-sm'>
                 {(user.name || user.email)?.charAt(0).toUpperCase() || '?'}
               </span>
             </div>
           )}
-          <div className='font-medium text-gray-900'>
+          <div className='font-medium text-gray-900 truncate'>
             {user.name || 'Sin nombre'}
           </div>
         </div>
       </TableCell>
-      <TableCell className='text-gray-500'>{user.email}</TableCell>
-      <TableCell className='text-gray-500'>{user.phone || '-'}</TableCell>
-      <TableCell>
+      <TableCell className='text-gray-500 min-w-[200px] truncate'>{user.email}</TableCell>
+      <TableCell className='text-gray-500 min-w-[120px]'>{user.phone || '-'}</TableCell>
+      <TableCell className='min-w-[120px]'>
         <Badge variant={user.role === 'ADMIN' ? 'primary' : 'default'}>
           {user.role === 'ADMIN' ? (
             <>
@@ -74,10 +74,10 @@ export function UserRow({
           )}
         </Badge>
       </TableCell>
-      <TableCell className='text-gray-500'>
+      <TableCell className='text-gray-500 min-w-[180px]'>
         {formatDateTime(user.createdAt)}
       </TableCell>
-      <TableCell>
+      <TableCell className='min-w-[200px]'>
         <div className='flex gap-2'>
           <Button
             variant='primary'
@@ -99,7 +99,8 @@ export function UserRow({
               </svg>
             }
           >
-            Editar
+            <span className='hidden sm:inline'>Editar</span>
+            <span className='sm:hidden'>Edit</span>
           </Button>
           {currentUserId !== user.id && (
             <Button
@@ -122,7 +123,8 @@ export function UserRow({
                 </svg>
               }
             >
-              Eliminar
+              <span className='hidden sm:inline'>Eliminar</span>
+              <span className='sm:hidden'>Del</span>
             </Button>
           )}
         </div>

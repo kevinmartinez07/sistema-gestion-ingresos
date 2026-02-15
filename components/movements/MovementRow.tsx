@@ -5,7 +5,7 @@ import { MovementRowProps } from '@/types/movement.types';
 export function MovementRow({ movement, isAdmin, onDelete }: MovementRowProps) {
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className='min-w-[120px]'>
         <Badge variant={movement.type === 'INCOME' ? 'success' : 'danger'}>
           {movement.type === 'INCOME' ? (
             <>
@@ -44,10 +44,10 @@ export function MovementRow({ movement, isAdmin, onDelete }: MovementRowProps) {
           )}
         </Badge>
       </TableCell>
-      <TableCell>
+      <TableCell className='min-w-[200px]'>
         <div className='font-medium text-gray-900'>{movement.concept}</div>
       </TableCell>
-      <TableCell>
+      <TableCell className='min-w-[120px]'>
         <div
           className={`font-semibold ${
             movement.type === 'INCOME' ? 'text-success-600' : 'text-danger-600'
@@ -56,23 +56,23 @@ export function MovementRow({ movement, isAdmin, onDelete }: MovementRowProps) {
           {formatCurrency(movement.amount)}
         </div>
       </TableCell>
-      <TableCell className='text-gray-500'>
+      <TableCell className='text-gray-500 min-w-[120px]'>
         {formatDateShort(movement.date)}
       </TableCell>
-      <TableCell>
+      <TableCell className='min-w-[180px]'>
         <div className='flex items-center gap-2'>
-          <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center'>
+          <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0'>
             <span className='text-white font-semibold text-sm'>
               {movement.user?.name?.charAt(0).toUpperCase() || '?'}
             </span>
           </div>
-          <span className='text-gray-700 font-medium'>
+          <span className='text-gray-700 font-medium truncate'>
             {movement.user?.name || 'Desconocido'}
           </span>
         </div>
       </TableCell>
       {isAdmin && (
-        <TableCell>
+        <TableCell className='min-w-[120px]'>
           <Button
             variant='danger'
             size='sm'
@@ -93,7 +93,8 @@ export function MovementRow({ movement, isAdmin, onDelete }: MovementRowProps) {
               </svg>
             }
           >
-            Eliminar
+            <span className='hidden sm:inline'>Eliminar</span>
+            <span className='sm:hidden'>×</span>
           </Button>
         </TableCell>
       )}

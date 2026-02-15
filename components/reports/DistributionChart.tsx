@@ -18,10 +18,10 @@ export function DistributionChart({
 
   return (
     <Card>
-      <h3 className='text-lg font-semibold text-gray-900 mb-4 flex items-center'>
-        <span className='bg-brand-100 rounded-full p-2 mr-3'>
+      <h3 className='text-base sm:text-lg font-semibold text-gray-900 mb-4 flex items-center'>
+        <span className='bg-brand-100 rounded-full p-2 mr-2 sm:mr-3 flex-shrink-0'>
           <svg
-            className='w-5 h-5 text-brand-600'
+            className='w-4 h-4 sm:w-5 sm:h-5 text-brand-600'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -40,7 +40,7 @@ export function DistributionChart({
             />
           </svg>
         </span>
-        Distribución de Movimientos
+        <span className='truncate'>Distribución de Movimientos</span>
       </h3>
       {hasData ? (
         <ResponsiveContainer width='100%' height={300}>
@@ -51,7 +51,7 @@ export function DistributionChart({
               cy='50%'
               labelLine={false}
               label={({ name, value }) => `${name}: ${formatCurrency(value)}`}
-              outerRadius={100}
+              outerRadius={80}
               fill='#8884d8'
               dataKey='value'
             >

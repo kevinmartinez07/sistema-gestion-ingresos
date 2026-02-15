@@ -1,4 +1,11 @@
 import { Button } from '@/components/ui';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { MovementFormData, MovementFormProps } from '@/types/movement.types';
 import { useState } from 'react';
 
@@ -87,20 +94,58 @@ export function MovementForm({
         <label className='block text-sm font-medium text-gray-700 mb-2'>
           Tipo de Movimiento
         </label>
-        <select
+        <Select
           value={formData.type}
-          onChange={(e) =>
+          onValueChange={(value) =>
             setFormData({
               ...formData,
-              type: e.target.value as 'INCOME' | 'EXPENSE',
+              type: value as 'INCOME' | 'EXPENSE',
             })
           }
-          className='select'
           disabled={submitting}
         >
-          <option value='INCOME'>Ingreso</option>
-          <option value='EXPENSE'>Egreso</option>
-        </select>
+          <SelectTrigger className='w-full'>
+            <SelectValue placeholder='Selecciona un tipo' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='INCOME'>
+              <div className='flex items-center gap-2'>
+                <svg
+                  className='w-4 h-4 text-green-600'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M7 11l5-5m0 0l5 5m-5-5v12'
+                  />
+                </svg>
+                <span>Ingreso</span>
+              </div>
+            </SelectItem>
+            <SelectItem value='EXPENSE'>
+              <div className='flex items-center gap-2'>
+                <svg
+                  className='w-4 h-4 text-red-600'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M17 13l-5 5m0 0l-5-5m5 5V6'
+                  />
+                </svg>
+                <span>Egreso</span>
+              </div>
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <label className='block text-sm font-medium text-gray-700 mb-2'>

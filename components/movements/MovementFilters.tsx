@@ -1,4 +1,11 @@
 import { Card } from '@/components/ui';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { MovementFiltersProps } from '@/types/movement.types';
 
 export function MovementFilters({
@@ -33,17 +40,72 @@ export function MovementFilters({
           />
         </div>
         <div className='md:w-48'>
-          <select
+          <Select
             value={filterType}
-            onChange={(e) =>
-              onFilterChange(e.target.value as 'ALL' | 'INCOME' | 'EXPENSE')
+            onValueChange={(value) =>
+              onFilterChange(value as 'ALL' | 'INCOME' | 'EXPENSE')
             }
-            className='select w-full'
           >
-            <option value='ALL'>Todos</option>
-            <option value='INCOME'>Ingresos</option>
-            <option value='EXPENSE'>Egresos</option>
-          </select>
+            <SelectTrigger className='w-full'>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='ALL'>
+                <div className='flex items-center gap-2'>
+                  <svg
+                    className='w-4 h-4 text-gray-600'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M4 6h16M4 12h16M4 18h16'
+                    />
+                  </svg>
+                  <span>Todos</span>
+                </div>
+              </SelectItem>
+              <SelectItem value='INCOME'>
+                <div className='flex items-center gap-2'>
+                  <svg
+                    className='w-4 h-4 text-green-600'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M7 11l5-5m0 0l5 5m-5-5v12'
+                    />
+                  </svg>
+                  <span>Ingresos</span>
+                </div>
+              </SelectItem>
+              <SelectItem value='EXPENSE'>
+                <div className='flex items-center gap-2'>
+                  <svg
+                    className='w-4 h-4 text-red-600'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M17 13l-5 5m0 0l-5-5m5 5V6'
+                    />
+                  </svg>
+                  <span>Egresos</span>
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </Card>

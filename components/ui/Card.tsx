@@ -50,9 +50,9 @@ export function StatCard({
   return (
     <Card padding='md' className={cn('stat-card', className)}>
       <div className='flex items-start justify-between'>
-        <div className='flex-1'>
-          <p className='text-sm font-medium opacity-90 mb-2'>{label}</p>
-          <p className={cn('text-3xl font-bold', valueColor)}>{value}</p>
+        <div className='flex-1 min-w-0'>
+          <p className='text-xs sm:text-sm font-medium opacity-90 mb-1 sm:mb-2'>{label}</p>
+          <p className={cn('text-2xl sm:text-3xl font-bold truncate', valueColor)}>{value}</p>
           {description && (
             <p className='text-xs opacity-80 mt-1'>{description}</p>
           )}

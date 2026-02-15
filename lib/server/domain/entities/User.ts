@@ -24,7 +24,7 @@ export class User {
     phoneValue?: string
   ) {
     this._email = Email.create(emailValue);
-    this._phone = phoneValue ? Phone.create(phoneValue) : undefined;
+    this._phone = Phone.createOptional(phoneValue);
   }
 
   /**
@@ -75,7 +75,7 @@ export class User {
   }
 
   set phone(value: string | undefined) {
-    this._phone = value ? Phone.create(value) : undefined;
+    this._phone = Phone.createOptional(value);
   }
 
   get emailVO(): Email {

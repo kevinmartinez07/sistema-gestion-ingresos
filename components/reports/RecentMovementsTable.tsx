@@ -1,22 +1,22 @@
 import {
-  Badge,
-  Card,
-  EmptyState,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Badge,
+    Card,
+    EmptyState,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from '@/components/ui';
 import { formatCurrency, formatDateShort } from '@/lib/format';
 import { RecentMovementsTableProps } from '@/types/report.types';
 
 export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
   return (
-    <Card padding='none'>
-      <div className='px-6 py-4 bg-ui-bg-subtle border-b border-ui-border'>
-        <h3 className='text-lg font-semibold text-gray-900 flex items-center'>
+    <Card padding='none' className='overflow-hidden'>
+      <div className='px-4 sm:px-6 py-4 bg-ui-bg-subtle border-b border-ui-border'>
+        <h3 className='text-base sm:text-lg font-semibold text-gray-900 flex items-center'>
           <svg
             className='w-5 h-5 mr-2 text-brand-600'
             fill='none'
@@ -33,17 +33,18 @@ export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
           Últimos 10 Movimientos
         </h3>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Tipo</TableHead>
-            <TableHead>Concepto</TableHead>
-            <TableHead>Monto</TableHead>
-            <TableHead>Fecha</TableHead>
-            <TableHead>Usuario</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+      <div className='overflow-x-auto'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className='whitespace-nowrap'>Tipo</TableHead>
+              <TableHead className='whitespace-nowrap'>Concepto</TableHead>
+              <TableHead className='whitespace-nowrap'>Monto</TableHead>
+              <TableHead className='whitespace-nowrap'>Fecha</TableHead>
+              <TableHead className='whitespace-nowrap'>Usuario</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
           {movements.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className='p-0'>
@@ -71,7 +72,7 @@ export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
           ) : (
             movements.slice(0, 10).map((movement) => (
               <TableRow key={movement.id}>
-                <TableCell>
+                <TableCell className='min-w-[120px]'>
                   <Badge
                     variant={movement.type === 'INCOME' ? 'success' : 'danger'}
                   >
@@ -112,12 +113,12 @@ export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
                     )}
                   </Badge>
                 </TableCell>
-                <TableCell>
-                  <div className='font-medium text-gray-900'>
+                <TableCell className='min-w-[200px]'>
+                  <div className='font-medium text-gray-900 truncate'>
                     {movement.concept}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className='min-w-[120px]'>
                   <div
                     className={`font-semibold ${
                       movement.type === 'INCOME'
@@ -128,17 +129,17 @@ export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
                     {formatCurrency(movement.amount)}
                   </div>
                 </TableCell>
-                <TableCell className='text-gray-500'>
+                <TableCell className='text-gray-500 min-w-[120px]'>
                   {formatDateShort(movement.date)}
                 </TableCell>
-                <TableCell>
+                <TableCell className='min-w-[180px]'>
                   <div className='flex items-center gap-2'>
-                    <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center'>
+                    <div className='w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0'>
                       <span className='text-white font-semibold text-sm'>
                         {movement.user?.name?.charAt(0).toUpperCase() || '?'}
                       </span>
                     </div>
-                    <span className='text-gray-700 font-medium'>
+                    <span className='text-gray-700 font-medium truncate'>
                       {movement.user?.name || 'Desconocido'}
                     </span>
                   </div>
@@ -148,6 +149,7 @@ export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
           )}
         </TableBody>
       </Table>
+      </div>
     </Card>
   );
 }

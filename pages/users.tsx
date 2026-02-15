@@ -2,10 +2,10 @@ import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AlertModal, ConfirmModal } from '@/components/ui';
 import {
-  UserEditForm,
-  UserSearch,
-  UserStats,
-  UserTable,
+    UserEditForm,
+    UserSearch,
+    UserStats,
+    UserTable,
 } from '@/components/users';
 import { authClient } from '@/lib/auth/client';
 import { parseHttpError } from '@/lib/utils/errors';
@@ -167,16 +167,15 @@ export default function UsersPage() {
 
   return (
     <Layout>
-      <div className='py-8'>
-        <div className='max-w-7xl mx-auto px-4'>
-          <header className='mb-8'>
-            <h1 className='text-3xl font-bold text-gray-900 pb-2 border-b-4 border-accent-500 inline-block'>
-              Gestión de Usuarios
-            </h1>
-            <p className='text-gray-600 mt-2'>
-              Administrar usuarios del sistema
-            </p>
-          </header>
+      <div className='max-w-7xl mx-auto'>
+        <header className='mb-6'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 pb-2 border-b-4 border-accent-500 inline-block'>
+            Gestión de Usuarios
+          </h1>
+          <p className='text-gray-600 mt-2 text-sm sm:text-base'>
+            Administrar usuarios del sistema
+          </p>
+        </header>
 
           <UserStats
             total={stats.total}
@@ -188,6 +187,7 @@ export default function UsersPage() {
 
           <UserEditForm
             user={editingUser}
+            currentUserId={currentUser?.id}
             onClose={handleFormClose}
             onSuccess={handleFormSuccess}
             onError={handleFormError}
@@ -221,7 +221,6 @@ export default function UsersPage() {
             currentUserId={currentUser?.id}
           />
         </div>
-      </div>
     </Layout>
   );
 }

@@ -7,6 +7,8 @@ export const withErrorHandling =
     try {
       return await handler(req, res);
     } catch (error: unknown) {
+      console.error('❌ ERROR EN API:', error);
+      
       if (error instanceof AppError) {
         return res
           .status(error.status)

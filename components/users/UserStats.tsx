@@ -3,13 +3,13 @@ import { UserStatsProps } from '@/types/user.types';
 
 export function UserStats({ total, admins, regularUsers }: UserStatsProps) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6'>
       <StatCard
         label='Total Usuarios'
         value={total.toString()}
         icon={
           <svg
-            className='w-6 h-6 text-white'
+            className='w-5 h-5 sm:w-6 sm:h-6 text-white'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -33,7 +33,7 @@ export function UserStats({ total, admins, regularUsers }: UserStatsProps) {
         value={admins.toString()}
         icon={
           <svg
-            className='w-6 h-6 text-white'
+            className='w-5 h-5 sm:w-6 sm:h-6 text-white'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -57,7 +57,7 @@ export function UserStats({ total, admins, regularUsers }: UserStatsProps) {
         value={regularUsers.toString()}
         icon={
           <svg
-            className='w-6 h-6 text-white'
+            className='w-5 h-5 sm:w-6 sm:h-6 text-white'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
