@@ -142,7 +142,10 @@ const config = {
         lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
         xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
         '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
+        '3xl': [
+          '1.875rem',
+          { lineHeight: '2.25rem', letterSpacing: '-0.02em' },
+        ],
         '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }],
         '5xl': ['3rem', { lineHeight: '1', letterSpacing: '-0.03em' }],
         '6xl': ['3.75rem', { lineHeight: '1', letterSpacing: '-0.04em' }],
@@ -163,7 +166,8 @@ const config = {
       boxShadow: {
         xs: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         sm: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
-        DEFAULT: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+        DEFAULT:
+          '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
         md: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
         lg: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
         xl: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
