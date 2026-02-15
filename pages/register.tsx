@@ -185,7 +185,8 @@ export default function RegisterPage() {
 
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-1'>
-                Teléfono <span className='text-gray-500 text-xs'>(opcional)</span>
+                Teléfono{' '}
+                <span className='text-gray-500 text-xs'>(opcional)</span>
               </label>
               <input
                 type='number'

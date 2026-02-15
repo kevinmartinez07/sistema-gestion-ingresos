@@ -2,10 +2,10 @@ import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AlertModal, ConfirmModal } from '@/components/ui';
 import {
-    UserEditForm,
-    UserSearch,
-    UserStats,
-    UserTable,
+  UserEditForm,
+  UserSearch,
+  UserStats,
+  UserTable,
 } from '@/components/users';
 import { authClient } from '@/lib/auth/client';
 import { parseHttpError } from '@/lib/utils/errors';
@@ -177,50 +177,50 @@ export default function UsersPage() {
           </p>
         </header>
 
-          <UserStats
-            total={stats.total}
-            admins={stats.admins}
-            regularUsers={stats.regularUsers}
-          />
+        <UserStats
+          total={stats.total}
+          admins={stats.admins}
+          regularUsers={stats.regularUsers}
+        />
 
-          <UserSearch searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <UserSearch searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 
-          <UserEditForm
-            user={editingUser}
-            currentUserId={currentUser?.id}
-            onClose={handleFormClose}
-            onSuccess={handleFormSuccess}
-            onError={handleFormError}
-          />
+        <UserEditForm
+          user={editingUser}
+          currentUserId={currentUser?.id}
+          onClose={handleFormClose}
+          onSuccess={handleFormSuccess}
+          onError={handleFormError}
+        />
 
-          <ConfirmModal
-            isOpen={!!deletingUser}
-            onClose={() => !isDeleting && setDeletingUser(null)}
-            type='danger'
-            title='Confirmar Eliminación'
-            message={`¿Estás seguro de que deseas eliminar al usuario "${deletingUser?.name || deletingUser?.email}"? Esta acción no se puede deshacer.`}
-            confirmText='Eliminar'
-            cancelText='Cancelar'
-            onConfirm={confirmDelete}
-            loading={isDeleting}
-          />
+        <ConfirmModal
+          isOpen={!!deletingUser}
+          onClose={() => !isDeleting && setDeletingUser(null)}
+          type='danger'
+          title='Confirmar Eliminación'
+          message={`¿Estás seguro de que deseas eliminar al usuario "${deletingUser?.name || deletingUser?.email}"? Esta acción no se puede deshacer.`}
+          confirmText='Eliminar'
+          cancelText='Cancelar'
+          onConfirm={confirmDelete}
+          loading={isDeleting}
+        />
 
-          <AlertModal
-            isOpen={alertModal.isOpen}
-            onClose={() => setAlertModal({ ...alertModal, isOpen: false })}
-            type={alertModal.type}
-            title={alertModal.title}
-            message={alertModal.message}
-          />
+        <AlertModal
+          isOpen={alertModal.isOpen}
+          onClose={() => setAlertModal({ ...alertModal, isOpen: false })}
+          type={alertModal.type}
+          title={alertModal.title}
+          message={alertModal.message}
+        />
 
-          <UserTable
-            users={filteredUsers}
-            searchTerm={searchTerm}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            currentUserId={currentUser?.id}
-          />
-        </div>
+        <UserTable
+          users={filteredUsers}
+          searchTerm={searchTerm}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          currentUserId={currentUser?.id}
+        />
+      </div>
     </Layout>
   );
 }

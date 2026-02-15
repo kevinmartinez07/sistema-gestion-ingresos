@@ -1,12 +1,12 @@
 import {
-    Card,
-    EmptyState,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Card,
+  EmptyState,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui';
 import { MovementTableProps } from '@/types/movement.types';
 import { MovementRow } from './MovementRow';
@@ -28,7 +28,9 @@ export function MovementTable({
               <TableHead className='whitespace-nowrap'>Monto</TableHead>
               <TableHead className='whitespace-nowrap'>Fecha</TableHead>
               <TableHead className='whitespace-nowrap'>Usuario</TableHead>
-              {isAdmin && <TableHead className='whitespace-nowrap'>Acciones</TableHead>}
+              {isAdmin && (
+                <TableHead className='whitespace-nowrap'>Acciones</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>

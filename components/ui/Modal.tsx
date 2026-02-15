@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
 import {
-    AlertModalProps,
-    ConfirmModalProps,
-    ModalProps,
+  AlertModalProps,
+  ConfirmModalProps,
+  ModalProps,
 } from '@/types/ui.types';
 import { useEffect } from 'react';
 
@@ -62,7 +62,9 @@ export function Modal({
       >
         {title && (
           <div className='flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex-shrink-0'>
-            <h2 className='text-lg sm:text-xl font-semibold text-gray-900 truncate pr-2'>{title}</h2>
+            <h2 className='text-lg sm:text-xl font-semibold text-gray-900 truncate pr-2'>
+              {title}
+            </h2>
             <button
               onClick={onClose}
               disabled={disableClose}

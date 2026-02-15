@@ -1,12 +1,12 @@
 import {
-    Card,
-    EmptyState,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Card,
+  EmptyState,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui';
 import { UserTableProps } from '@/types/user.types';
 import { UserRow } from './UserRow';

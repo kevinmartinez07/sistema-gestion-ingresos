@@ -2,14 +2,14 @@ import { Card, EmptyState } from '@/components/ui';
 import { formatCurrency } from '@/lib/format';
 import { MonthlyChartProps } from '@/types/report.types';
 import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Legend,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
 
 export function MonthlyChart({ data }: MonthlyChartProps) {

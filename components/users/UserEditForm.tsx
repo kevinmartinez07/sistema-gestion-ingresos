@@ -56,7 +56,7 @@ export function UserEditForm({
 
       if (data.success) {
         setFormData({ name: '', role: 'USER', phone: '' });
-        
+
         if (shouldLogout) {
           // Cerrar sesión si cambió su propio rol de ADMIN a USER
           await authClient.signOut();
@@ -64,7 +64,7 @@ export function UserEditForm({
         } else {
           await onSuccess();
         }
-        
+
         setSubmitting(false);
       }
     } catch (error) {
@@ -91,30 +91,38 @@ export function UserEditForm({
       disableClose={submitting}
     >
       <form onSubmit={handleSubmit} className='space-y-4'>
-        {currentUserId === user?.id && user?.role === 'ADMIN' && formData.role === 'USER' && (
-          <div className='bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-lg text-sm'>
-            <div className='flex items-start gap-2'>
-              <svg
-                className='w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
-              <div>
-                <p className='font-semibold mb-1'>⚠️ Advertencia importante</p>
-                <p>Estás cambiando tu propio rol de Administrador a Usuario. Tu sesión se cerrará automáticamente y perderás los privilegios de administrador.</p>
+        {currentUserId === user?.id &&
+          user?.role === 'ADMIN' &&
+          formData.role === 'USER' && (
+            <div className='bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-lg text-sm'>
+              <div className='flex items-start gap-2'>
+                <svg
+                  className='w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                  />
+                </svg>
+                <div>
+                  <p className='font-semibold mb-1'>
+                    ⚠️ Advertencia importante
+                  </p>
+                  <p>
+                    Estás cambiando tu propio rol de Administrador a Usuario. Tu
+                    sesión se cerrará automáticamente y perderás los privilegios
+                    de administrador.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        
+          )}
+
         <div>
           <label className='block text-sm font-medium text-gray-700 mb-2'>
             Nombre Completo

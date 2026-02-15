@@ -1,10 +1,10 @@
 import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import {
-    DistributionChart,
-    MonthlyChart,
-    RecentMovementsTable,
-    ReportStats,
+  DistributionChart,
+  MonthlyChart,
+  RecentMovementsTable,
+  ReportStats,
 } from '@/components/reports';
 import { AlertModal, Button } from '@/components/ui';
 import { authClient } from '@/lib/auth/client';

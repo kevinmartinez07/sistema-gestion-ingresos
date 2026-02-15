@@ -1,10 +1,10 @@
 import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import {
-    MovementFilters,
-    MovementForm,
-    MovementStats,
-    MovementTable,
+  MovementFilters,
+  MovementForm,
+  MovementStats,
+  MovementTable,
 } from '@/components/movements';
 import { AlertModal, Button, Modal } from '@/components/ui';
 import { authClient } from '@/lib/auth/client';

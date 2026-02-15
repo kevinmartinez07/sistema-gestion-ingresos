@@ -33,8 +33,12 @@ export function UserRow({
           </div>
         </div>
       </TableCell>
-      <TableCell className='text-gray-500 min-w-[200px] truncate'>{user.email}</TableCell>
-      <TableCell className='text-gray-500 min-w-[120px]'>{user.phone || '-'}</TableCell>
+      <TableCell className='text-gray-500 min-w-[200px] truncate'>
+        {user.email}
+      </TableCell>
+      <TableCell className='text-gray-500 min-w-[120px]'>
+        {user.phone || '-'}
+      </TableCell>
       <TableCell className='min-w-[120px]'>
         <Badge variant={user.role === 'ADMIN' ? 'primary' : 'default'}>
           {user.role === 'ADMIN' ? (
