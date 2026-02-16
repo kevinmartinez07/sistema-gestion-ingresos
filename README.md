@@ -1,5 +1,9 @@
 # Sistema de Gestión de Ingresos y Egresos
 
+![CI](https://github.com/kevinmartinez07/sistema-gestion-ingresos/actions/workflows/ci.yml/badge.svg)
+![Tests](https://img.shields.io/badge/tests-213%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-lib%2F-blue)
+
 Sistema fullstack empresarial para la gestión de movimientos financieros con arquitectura escalable y mantenible. Construido con Next.js 15, TypeScript, Prisma ORM, Better Auth y arquitectura hexagonal siguiendo principios de Domain-Driven Design (DDD) y Clean Architecture.
 
 ## Tabla de Contenidos
@@ -12,6 +16,7 @@ Sistema fullstack empresarial para la gestión de movimientos financieros con ar
 - [Instalación y Configuración](#instalación-y-configuración)
 - [Pruebas](#pruebas)
 - [Documentación de API](#documentación-de-api)
+- [CI/CD](#cicd)
 - [Despliegue](#despliegue)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 
@@ -877,6 +882,55 @@ __tests__/
 | 404 | Not Found | Recurso no encontrado |
 | 500 | Internal Server Error | Error del servidor |
 
+## CI/CD
+
+### GitHub Actions Pipeline
+
+El proyecto incluye integración continua automatizada que se ejecuta en cada push o pull request.
+
+**Workflow:** `.github/workflows/ci.yml`
+
+#### Pipeline Steps
+
+1. **Checkout:** Clona el repositorio
+2. **Setup Node:** Configura Node.js 20 con cache de npm
+3. **Install:** Instala dependencias con `npm ci`
+4. **Typecheck:** Verifica tipos TypeScript (`tsc --noEmit`)
+5. **Lint:** Valida código con ESLint (`npm run lint`)
+6. **Tests:** Ejecuta suite de 213 tests con Jest (`npm test`)
+7. **Build:** Compila proyecto Next.js (`npm run build`)
+
+#### Estado del Pipeline
+
+```bash
+✓ Typecheck: Sin errores de tipos
+✓ Lint: 0 errores, 0 warnings
+✓ Build: Compilación exitosa
+✓ Tests: 11 suites, 213 tests passed
+```
+
+#### Variables de Entorno en CI
+
+#### Ver Resultados
+
+1. Ir a la pestaña **Actions** en GitHub
+2. Seleccionar workflow **CI**
+3. Ver logs detallados de cada step
+
+#### Configuración Local
+
+Para replicar el pipeline localmente:
+
+```bash
+# Ejecutar todos los pasos del CI
+npm ci
+npx prisma generate
+npm run typecheck
+npm run lint
+npm run build
+npm test
+```
+
 ## Despliegue
 
 ### Despliegue en Vercel (Recomendado)
@@ -956,14 +1010,44 @@ npx prisma db push
 
 ### Despliegue Continuo
 
-Cada push a `main` despliega automáticamente. Para otras branches:
+#### GitHub Actions + Vercel
+
+El proyecto implementa CI/CD completo:
+
+1. **Pull Request:**
+   - GitHub Actions ejecuta CI (typecheck, lint, build, tests)
+   - Vercel crea preview deployment automático
+   - Merge solo si CI pasa ✓
+
+2. **Push a main:**
+   - GitHub Actions valida calidad de código
+   - Vercel despliega a producción automáticamente
+   - Rollback disponible en Vercel Dashboard
 
 ```bash
-# Deploy de rama específica
-git checkout feature/nueva-funcionalidad
+# Workflow típico
+git checkout -b feature/nueva-funcionalidad
 git push origin feature/nueva-funcionalidad
-# Vercel crea preview deployment automáticamente
+# → CI valida + Preview deployment en Vercel
+
+# Crear PR en GitHub
+# → CI valida nuevamente
+# → Revisar preview antes de merge
+
+# Merge a main
+# → Production deployment automático
 ```
+
+#### Validación Pre-Deploy
+
+Antes de cada deployment, GitHub Actions verifica:
+
+- ✓ Tipos TypeScript correctos
+- ✓ Código sin errores de lint
+- ✓ Build exitoso
+- ✓ 213 tests pasando
+
+Si algún check falla, el deployment no procede.
 
 ### Rollback
 
