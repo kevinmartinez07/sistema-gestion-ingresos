@@ -40,28 +40,16 @@ describe('CreateMovementUseCase', () => {
 
       const result = await useCase.execute(validData);
 
-      expect(result.id).toBe('generated-id');
-      expect(result.type).toBe('INCOME');
-      expect(result.amount).toBe(1500);
-      expect(result.concept).toBe('Test income');
-      expect(result.userId).toBe('user-123');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.id).toBe('generated-id');
+      expect(result.value.type).toBe('INCOME');
+      expect(result.value.amount).toBe(1500);
+      expect(result.value.concept).toBe('Test income');
+      expect(result.value.userId).toBe('user-123');
     });
 
-    it('should throw error when amount is zero', async () => {
-      const invalidData: CreateMovementRequest = {
-        type: 'INCOME',
-        amount: 0,
-        concept: 'Test',
-        date: new Date('2026-02-14'),
-        userId: 'user-123',
-      };
 
-      await expect(useCase.execute(invalidData)).rejects.toThrow(
-        'Amount must be greater than 0'
-      );
-    });
-
-    it('should throw error when amount is negative', async () => {
+    it('should return failure when amount is negative', async () => {
       const invalidData: CreateMovementRequest = {
         type: 'INCOME',
         amount: -100,
@@ -70,54 +58,10 @@ describe('CreateMovementUseCase', () => {
         userId: 'user-123',
       };
 
-      await expect(useCase.execute(invalidData)).rejects.toThrow(
-        'Amount must be greater than 0'
-      );
-    });
+      const result = await useCase.execute(invalidData);
 
-    it('should throw error when concept is empty', async () => {
-      const invalidData: CreateMovementRequest = {
-        type: 'INCOME',
-        amount: 1000,
-        concept: '',
-        date: new Date('2026-02-14'),
-        userId: 'user-123',
-      };
-
-      await expect(useCase.execute(invalidData)).rejects.toThrow(
-        'Concept cannot be empty'
-      );
-    });
-
-    it('should throw error when concept contains only whitespace', async () => {
-      const invalidData: CreateMovementRequest = {
-        type: 'INCOME',
-        amount: 1000,
-        concept: '   ',
-        date: new Date('2026-02-14'),
-        userId: 'user-123',
-      };
-
-      await expect(useCase.execute(invalidData)).rejects.toThrow(
-        'Concept cannot be empty'
-      );
-    });
-
-    it('should throw error when date is in the future', async () => {
-      const futureDate = new Date();
-      futureDate.setFullYear(futureDate.getFullYear() + 1);
-
-      const invalidData: CreateMovementRequest = {
-        type: 'INCOME',
-        amount: 1000,
-        concept: 'Test',
-        date: futureDate,
-        userId: 'user-123',
-      };
-
-      await expect(useCase.execute(invalidData)).rejects.toThrow(
-        'Date cannot be in the future'
-      );
+      expect(result.isFailure).toBe(true);
+      expect(result.errors).toContain('El monto no puede ser negativo');
     });
 
     it('should accept date from the past', async () => {
@@ -133,7 +77,8 @@ describe('CreateMovementUseCase', () => {
 
       const result = await useCase.execute(validData);
 
-      expect(result.date).toEqual(pastDate);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.date).toEqual(pastDate);
     });
 
     it("should accept today's date", async () => {
@@ -150,7 +95,8 @@ describe('CreateMovementUseCase', () => {
 
       const result = await useCase.execute(validData);
 
-      expect(result.type).toBe('EXPENSE');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.type).toBe('EXPENSE');
     });
   });
 });

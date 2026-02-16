@@ -1,6 +1,6 @@
 import { StatCard } from '@/components/ui';
+import { ReportStatsProps } from '@/lib/client/types/report.types';
 import { formatCurrency } from '@/lib/format';
-import { ReportStatsProps } from '@/types/report.types';
 
 export function ReportStats({
   balance,

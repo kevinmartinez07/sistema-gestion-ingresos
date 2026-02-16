@@ -1,4 +1,4 @@
-import { PasswordInputProps } from '@/types/ui.types';
+import { PasswordInputProps } from '@/lib/client/types/ui.types';
 import { useState } from 'react';
 
 export function PasswordInput({
@@ -25,10 +25,11 @@ export function PasswordInput({
           type={showPassword ? 'text' : 'password'}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className='w-full px-4 py-2 pr-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          className='w-full px-4 py-2 pr-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent [&::-ms-reveal]:hidden [&::-ms-clear]:hidden'
           placeholder={placeholder}
           disabled={disabled}
           required={required}
+          autoComplete='off'
         />
         <button
           type='button'

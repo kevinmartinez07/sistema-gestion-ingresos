@@ -1,5 +1,5 @@
-import { ForbiddenError } from '@/lib/server/application/errors/AppErrors';
 import { Role } from '@/lib/server/domain/value-objects/Role';
+import { ApiResponse } from '@/lib/server/presentation/helpers/ApiResponse';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 export const withRole =
@@ -8,7 +8,7 @@ export const withRole =
   async (req: NextApiRequest, res: NextApiResponse) => {
     const { user } = req;
     if (!user || !allowedRoles.includes(user.role)) {
-      throw new ForbiddenError();
+      return res.status(403).json(ApiResponse.forbidden());
     }
     return handler(req, res);
   };

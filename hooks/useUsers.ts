@@ -4,11 +4,11 @@
  */
 
 import {
-  UpdateUserDTO,
-  usersService,
-  UserStats,
+    UpdateUserDTO,
+    usersService,
+    UserStats,
 } from '@/lib/client/services/users.service';
-import { UserResponseDTO } from '@/types/user.types';
+import { UserResponseDTO } from '@/lib/client/types/user.types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface UseUsersOptions {

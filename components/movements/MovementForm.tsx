@@ -6,7 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { MovementFormData, MovementFormProps } from '@/types/movement.types';
+import {
+  MovementFormData,
+  MovementFormProps,
+} from '@/lib/client/types/movement.types';
 import { useState } from 'react';
 
 // Helper para obtener la fecha local en formato YYYY-MM-DD

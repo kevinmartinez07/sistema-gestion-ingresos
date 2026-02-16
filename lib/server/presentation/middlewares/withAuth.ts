@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth';
-import { UnauthorizedError } from '@/lib/server/application/errors/AppErrors';
+import { ApiResponse } from '@/lib/server/presentation/helpers/ApiResponse';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 export const withAuth =
@@ -15,7 +15,7 @@ export const withAuth =
     const session = await auth.api.getSession({ headers });
 
     if (!session || !session.user) {
-      throw new UnauthorizedError();
+      return res.status(401).json(ApiResponse.unauthorized());
     }
 
     req.user = {

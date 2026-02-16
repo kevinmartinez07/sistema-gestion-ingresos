@@ -5,7 +5,6 @@
 
 export class Concept {
   private readonly _value: string;
-  private static readonly MIN_LENGTH = 3;
   private static readonly MAX_LENGTH = 200;
 
   private constructor(value: string) {
@@ -13,20 +12,20 @@ export class Concept {
   }
 
   static create(concept: string): Concept {
-    if (!concept || typeof concept !== 'string') {
-      throw new Error('Concept cannot be empty');
+    if (
+      concept === null ||
+      concept === undefined ||
+      typeof concept !== 'string'
+    ) {
+      throw new Error('El concepto debe ser un texto válido');
     }
 
     const trimmedConcept = concept.trim();
 
-    if (trimmedConcept.length < Concept.MIN_LENGTH) {
-      throw new Error(
-        `Concept must be at least ${Concept.MIN_LENGTH} characters`
-      );
-    }
-
     if (trimmedConcept.length > Concept.MAX_LENGTH) {
-      throw new Error(`Concept cannot exceed ${Concept.MAX_LENGTH} characters`);
+      throw new Error(
+        `El concepto no puede exceder ${Concept.MAX_LENGTH} caracteres`
+      );
     }
 
     return new Concept(trimmedConcept);

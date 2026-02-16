@@ -30,67 +30,6 @@ describe('Movement Entity', () => {
       expect(movement.amount).toBe(validMovementData.amount);
       expect(movement.concept).toBe(validMovementData.concept);
     });
-
-    it('should throw error when amount is zero or negative', () => {
-      expect(() => {
-        new Movement(
-          validMovementData.id,
-          validMovementData.type,
-          0,
-          validMovementData.concept,
-          validMovementData.date,
-          validMovementData.userId,
-          validMovementData.createdAt,
-          validMovementData.updatedAt
-        );
-      }).toThrow('Amount must be greater than 0');
-
-      expect(() => {
-        new Movement(
-          validMovementData.id,
-          validMovementData.type,
-          -100,
-          validMovementData.concept,
-          validMovementData.date,
-          validMovementData.userId,
-          validMovementData.createdAt,
-          validMovementData.updatedAt
-        );
-      }).toThrow('Amount must be greater than 0');
-    });
-
-    it('should throw error when concept is empty', () => {
-      expect(() => {
-        new Movement(
-          validMovementData.id,
-          validMovementData.type,
-          validMovementData.amount,
-          '',
-          validMovementData.date,
-          validMovementData.userId,
-          validMovementData.createdAt,
-          validMovementData.updatedAt
-        );
-      }).toThrow('Concept cannot be empty');
-    });
-
-    it('should throw error when date is in the future', () => {
-      const futureDate = new Date();
-      futureDate.setFullYear(futureDate.getFullYear() + 1);
-
-      expect(() => {
-        new Movement(
-          validMovementData.id,
-          validMovementData.type,
-          validMovementData.amount,
-          validMovementData.concept,
-          futureDate,
-          validMovementData.userId,
-          validMovementData.createdAt,
-          validMovementData.updatedAt
-        );
-      }).toThrow('Date cannot be in the future');
-    });
   });
 
   describe('Business methods', () => {
@@ -173,23 +112,6 @@ describe('Movement Entity', () => {
       expect(movement.amount).toBe(2000);
     });
 
-    it('should throw error when updating amount to invalid value', () => {
-      const movement = new Movement(
-        validMovementData.id,
-        validMovementData.type,
-        validMovementData.amount,
-        validMovementData.concept,
-        validMovementData.date,
-        validMovementData.userId,
-        validMovementData.createdAt,
-        validMovementData.updatedAt
-      );
-
-      expect(() => {
-        movement.updateAmount(0);
-      }).toThrow('Amount must be greater than 0');
-    });
-
     it('should update concept correctly', () => {
       const movement = new Movement(
         validMovementData.id,
@@ -205,23 +127,6 @@ describe('Movement Entity', () => {
       movement.updateConcept('New concept');
 
       expect(movement.concept).toBe('New concept');
-    });
-
-    it('should throw error when updating concept to empty', () => {
-      const movement = new Movement(
-        validMovementData.id,
-        validMovementData.type,
-        validMovementData.amount,
-        validMovementData.concept,
-        validMovementData.date,
-        validMovementData.userId,
-        validMovementData.createdAt,
-        validMovementData.updatedAt
-      );
-
-      expect(() => {
-        movement.updateConcept('');
-      }).toThrow('Concept cannot be empty');
     });
   });
 });

@@ -1,5 +1,6 @@
 import { appService } from '@/lib/server/application/ApplicationService';
 import { ROLES, Role } from '@/lib/server/domain/value-objects/Role';
+import { ApiResponse } from '@/lib/server/presentation/helpers/ApiResponse';
 import { withAuth } from '@/lib/server/presentation/middlewares/withAuth';
 import { withErrorHandling } from '@/lib/server/presentation/middlewares/withErrorHandling';
 import { withRole } from '@/lib/server/presentation/middlewares/withRole';
@@ -9,10 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   if (typeof id !== 'string') {
-    return res.status(400).json({
-      success: false,
-      error: 'Invalid user ID',
-    });
+    return res.status(400).json(ApiResponse.badRequest('Invalid user ID'));
   }
 
   if (req.method === 'PUT') {
@@ -26,45 +24,51 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const updateData: UpdateData = {};
     if (name !== undefined) updateData.name = name;
-    if (role !== undefined) {
-      if (!['ADMIN', 'USER'].includes(role)) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid role. Must be ADMIN or USER',
-        });
-      }
-      updateData.role = role as Role;
-    }
+    if (role !== undefined) updateData.role = role as Role;
     if (phone !== undefined) updateData.phone = phone;
 
-    const user = await appService.updateUser.execute({
+    // Ejecutar use case con Result Pattern
+    const result = await appService.updateUser.execute({
       id,
       ...updateData,
     });
 
-    return res.status(200).json({
-      success: true,
-      data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        updatedAt: user.updatedAt,
-      },
-    });
+    // Manejo explícito de Result
+    if (result.isFailure) {
+      return res.status(400).json(ApiResponse.validationErrors(result.errors));
+    }
+
+    // Respuesta exitosa
+    return res.status(200).json(
+      ApiResponse.success({
+        id: result.value.id,
+        name: result.value.name,
+        email: result.value.email,
+        phone: result.value.phone,
+        role: result.value.role,
+        updatedAt: result.value.updatedAt,
+      })
+    );
   }
 
   if (req.method === 'DELETE') {
-    await appService.deleteUser.execute({ id });
+    // Ejecutar use case con Result Pattern
+    const result = await appService.deleteUser.execute({ id });
 
-    return res.status(200).json({
-      success: true,
-      data: { message: 'Usuario eliminado correctamente' },
-    });
+    // Manejo explícito de Result
+    if (result.isFailure) {
+      return res.status(400).json(ApiResponse.validationErrors(result.errors));
+    }
+
+    // Respuesta exitosa
+    return res
+      .status(200)
+      .json(
+        ApiResponse.success({ message: 'Usuario eliminado correctamente' })
+      );
   }
 
-  return res.status(405).json({ success: false, error: 'Method Not Allowed' });
+  return res.status(405).json(ApiResponse.error('Método no permitido'));
 };
 
 export default withErrorHandling(withAuth(withRole([ROLES.ADMIN])(handler)));

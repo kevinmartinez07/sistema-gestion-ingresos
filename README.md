@@ -1,6 +1,12 @@
 # Sistema de Gestión de Ingresos y Egresos
 
-Sistema fullstack empresarial para la gestión de movimientos financieros con arquitectura escalable y mantenible. Construido con Next.js 15, TypeScript, Prisma ORM, Better Auth y arquitectura hexagonal siguiendo principios de Domain-Driven Design (DDD) y Clean Architecture.
+![CI](https://github.com/kevinmartinez07/sistema-gestion-ingresos/actions/workflows/ci.yml/badge.svg)
+![Tests](https://img.shields.io/badge/tests-198%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-lib%2F-blue)
+
+Sistema fullstack empresarial para la gestión de movimientos financieros con arquitectura escalable y mantenible. Construido con Next.js 15, TypeScript, Prisma ORM, Better Auth siguiendo principios de Clean Architecture y Domain-Driven Design (DDD).
+
+**🚀 Proyecto desplegado en Vercel:** [Ver aplicación en producción](https://sistema-gestion-ingresos.vercel.app/)
 
 ## Tabla de Contenidos
 
@@ -8,12 +14,13 @@ Sistema fullstack empresarial para la gestión de movimientos financieros con ar
 - [Stack Tecnológico](#stack-tecnológico)
 - [Arquitectura y Diseño](#arquitectura-y-diseño)
 - [Atributos de Calidad](#atributos-de-calidad)
-- [Requisitos Previos](#requisitos-previos)
 - [Instalación y Configuración](#instalación-y-configuración)
 - [Pruebas](#pruebas)
 - [Documentación de API](#documentación-de-api)
+- [CI/CD](#cicd)
 - [Despliegue](#despliegue)
 - [Estructura del Proyecto](#estructura-del-proyecto)
+- [Entregables de la Prueba Técnica](#entregables-de-la-prueba-técnica)
 
 ## Características Principales
 
@@ -389,7 +396,7 @@ getTotalBalance(userId?: string): Promise<number>
 **Implementación:**
 - **Separación de Responsabilidades:** Cada capa tiene una única razón de cambio. Cambiar la base de datos no afecta casos de uso.
 - **Value Objects:** Validaciones centralizadas. Cambiar formato de email se hace en un único archivo (`Email.ts`).
-- **Tests Unitarios:** 213 tests garantizan que cambios no rompan funcionalidad existente.
+- **Tests Unitarios:** 198 tests garantizan que cambios no rompan funcionalidad existente.
 - **TypeScript Estricto:** Refactorings seguros con detección de errores en compile-time.
 
 **Ejemplo práctico:**
@@ -416,7 +423,7 @@ Tiempo estimado: 2-3 días vs. reescritura completa
 
 **Cobertura actual:**
 ```
-Tests Unitarios: 213 tests
+Tests Unitarios: 198 tests
   - Entidades de dominio: 74 tests
   - Value Objects: 127 tests (Money, Email, Phone, Concept, MovementType)
   - Casos de uso: 12 tests
@@ -630,19 +637,24 @@ export const auth = betterAuth({
 - Type aliases para signatures complejas
 - Utility types (`Partial`, `Pick`, `Omit`)
 
-## Requisitos Previos
-
-- Node.js 18.0.0 o superior
-- npm 9.0.0 o superior
-- Cuenta de GitHub (para OAuth)
-- Base de datos PostgreSQL 14+ (recomendado: Supabase)
-
 ## Instalación y Configuración
+
+> **📝 Requisito de la prueba técnica:** Instrucciones para ejecutar el proyecto localmente
+
+### Requisitos Previos
+
+Antes de comenzar, asegúrate de tener instalado:
+
+- **Node.js** 18.0.0 o superior ([descargar](https://nodejs.org))
+- **npm** 9.0.0 o superior (incluido con Node.js)
+- **Git** ([descargar](https://git-scm.com))
+- **Cuenta GitHub** para OAuth authentication
+- **PostgreSQL** 14+ o cuenta en [Supabase](https://supabase.com) (recomendado)
 
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/sistema-gestion-ingresos.git
+git clone https://github.com/kevinmartinez07/sistema-gestion-ingresos
 cd sistema-gestion-ingresos
 ```
 
@@ -740,8 +752,8 @@ npm test
 **Resultado esperado:**
 ```
 Test Suites: 11 passed, 11 total
-Tests:       213 passed, 213 total
-Time:        2.8s
+Tests:       198 passed, 198 total
+Time:        2.5s
 ```
 
 ### Ejecutar en Modo Watch
@@ -768,19 +780,19 @@ npm run test:coverage
 __tests__/
 ├── domain/
 │   ├── entities/
-│   │   ├── Movement.test.ts      # 29 tests
-│   │   └── User.test.ts          # 45 tests
+│   │   ├── Movement.test.ts
+│   │   └── User.test.ts
 │   ├── value-objects/
-│   │   ├── Money.test.ts         # 30 tests
-│   │   ├── Email.test.ts         # 28 tests
-│   │   ├── Phone.test.ts         # 44 tests
-│   │   ├── Concept.test.ts       # 33 tests
-│   │   └── MovementType.test.ts  # 26 tests
+│   │   ├── Money.test.ts
+│   │   ├── Email.test.ts
+│   │   ├── Phone.test.ts
+│   │   ├── Concept.test.ts
+│   │   └── MovementType.test.ts
 │   └── use-cases/
-│       ├── CreateMovementUseCase.test.ts     # 29 tests
-│       ├── DeleteMovementUseCase.test.ts     # 12 tests
-│       ├── GetBalanceUseCase.test.ts         # 24 tests
-│       └── UpdateUserUseCase.test.ts         # 14 tests
+│       ├── CreateMovementUseCase.test.ts
+│       ├── DeleteMovementUseCase.test.ts
+│       ├── GetBalanceUseCase.test.ts
+│       └── UpdateUserUseCase.test.ts
 ```
 
 ## Documentación de API
@@ -877,93 +889,281 @@ __tests__/
 | 404 | Not Found | Recurso no encontrado |
 | 500 | Internal Server Error | Error del servidor |
 
-## Despliegue
+## CI/CD
 
-### Despliegue en Vercel (Recomendado)
+### GitHub Actions Pipeline
 
-#### 1. Preparar Repositorio
+El proyecto incluye integración continua automatizada que se ejecuta en cada push o pull request.
+
+**Workflow:** `.github/workflows/ci.yml`
+
+#### Pipeline Steps
+
+1. **Checkout:** Clona el repositorio
+2. **Setup Node:** Configura Node.js 20 con cache de npm
+3. **Install:** Instala dependencias con `npm ci`
+4. **Typecheck:** Verifica tipos TypeScript (`tsc --noEmit`)
+5. **Lint:** Valida código con ESLint (`npm run lint`)
+6. **Tests:** Ejecuta suite de 198 tests con Jest (`npm test`)
+7. **Build:** Compila proyecto Next.js (`npm run build`)
+
+#### Estado del Pipeline
 
 ```bash
+✓ Typecheck: Sin errores de tipos
+✓ Lint: 0 errores, 0 warnings
+✓ Build: Compilación exitosa
+✓ Tests: 11 suites, 198 tests passed
+```
+
+#### Variables de Entorno en CI
+
+#### Ver Resultados
+
+1. Ir a la pestaña **Actions** en GitHub
+2. Seleccionar workflow **CI**
+3. Ver logs detallados de cada step
+
+#### Configuración Local
+
+Para replicar el pipeline localmente:
+
+```bash
+# Ejecutar todos los pasos del CI
+npm ci
+npx prisma generate
+npm run typecheck
+npm run lint
+npm run build
+npm test
+```
+
+## Despliegue
+
+### Opción 1: Despliegue Manual en Vercel
+
+Esta es la forma recomendada y más simple de desplegar el proyecto en Vercel.
+
+#### Paso 1: Preparar Repositorio en GitHub
+
+```bash
+# Asegurarse de tener todos los cambios en GitHub
 git add .
-git commit -m "Prepare for deployment"
+git commit -m "Ready for deployment"
 git push origin main
 ```
 
-#### 2. Importar en Vercel
+#### Paso 2: Crear Proyecto en Vercel
 
-1. Acceder a [vercel.com](https://vercel.com)
-2. Click en "New Project"
-3. Importar repositorio desde GitHub
-4. Vercel detectará automáticamente Next.js
+1. Ir a [vercel.com](https://vercel.com) y hacer login con GitHub
+2. Click en **"Add New Project"** o **"Import Project"**
+3. Seleccionar tu repositorio `sistema-gestion-ingresos`
+4. Vercel detectará automáticamente que es un proyecto Next.js
 
-#### 3. Configurar Variables de Entorno
+#### Paso 3: Configurar Variables de Entorno en Vercel
 
-En Vercel Dashboard → Settings → Environment Variables:
+En la pantalla de configuración del proyecto, agregar las siguientes variables de entorno:
+
+**Variables Requeridas:**
 
 ```env
-DATABASE_URL=postgresql://usuario:password@host/database?pgbouncer=true
+# Database (usar Supabase o cualquier PostgreSQL con pooling)
+DATABASE_URL=postgresql://usuario:password@host:5432/database?pgbouncer=true&connection_limit=1
 
-BETTER_AUTH_SECRET=<generar-nuevo-para-produccion>
-BETTER_AUTH_URL=https://tu-app.vercel.app
-NEXT_PUBLIC_BETTER_AUTH_URL=https://tu-app.vercel.app
+# Better Auth (generar nuevo secret con: openssl rand -base64 32)
+BETTER_AUTH_SECRET=<nuevo-secret-para-produccion>
+BETTER_AUTH_URL=https://sistema-gestion-ingresos.vercel.app
+NEXT_PUBLIC_BETTER_AUTH_URL=https://sistema-gestion-ingresos.vercel.app
 
-GITHUB_CLIENT_ID=<github-client-id>
-GITHUB_CLIENT_SECRET=<github-client-secret>
+# GitHub OAuth
+GITHUB_CLIENT_ID=<tu-github-client-id>
+GITHUB_CLIENT_SECRET=<tu-github-client-secret>
 ```
 
-**Importante:** Usar Transaction pooling (`?pgbouncer=true`) en `DATABASE_URL` para serverless.
+**⚠️ Importante:**
+- Reemplazar `sistema-gestion-ingresos` con el nombre que asigne Vercel a tu proyecto
+- El `DATABASE_URL` **debe incluir** `?pgbouncer=true` para funcionar en serverless
+- Generar un nuevo `BETTER_AUTH_SECRET` para producción (no usar el de desarrollo)
 
-#### 4. Configurar Build Settings
+#### Paso 4: Configurar Build Settings
 
-El archivo `vercel.json` ya incluye configuración óptima:
+Vercel usará automáticamente estas configuraciones (ya incluidas en `vercel.json`):
 
-```json
-{
-  "buildCommand": "prisma generate && next build",
-  "framework": "nextjs",
-  "installCommand": "npm install"
-}
-```
+- **Build Command:** `prisma generate && next build`
+- **Output Directory:** `.next`
+- **Install Command:** `npm install`
+- **Development Command:** `npm run dev`
 
-#### 5. Desplegar
+**No es necesario cambiar nada**, Vercel detectará `vercel.json` automáticamente.
 
-```bash
-# Automático desde Vercel Dashboard
-# O manual usando CLI:
-npx vercel --prod
-```
+#### Paso 5: Hacer Deploy
 
-#### 6. Actualizar GitHub OAuth
+1. Click en **"Deploy"**
+2. Esperar a que termine el build (2-3 minutos aproximadamente)
+3. Vercel te dará una URL de producción: `https://tu-proyecto.vercel.app`
 
-Tras el primer deploy, actualizar la OAuth App en GitHub:
+#### Paso 6: Configurar GitHub OAuth para Producción
+
+Después del primer despliegue, actualizar la aplicación OAuth en GitHub:
 
 1. Ir a [GitHub Developer Settings](https://github.com/settings/developers)
-2. Editar OAuth App
-3. Actualizar URLs:
-   - **Homepage URL:** `https://tu-app.vercel.app`
-   - **Authorization callback URL:** `https://tu-app.vercel.app/api/auth/callback/github`
+2. Editar tu OAuth App
+3. Actualizar las URLs con tu dominio de Vercel:
+   - **Homepage URL:** `https://tu-proyecto.vercel.app`
+   - **Authorization callback URL:** `https://tu-proyecto.vercel.app/api/auth/callback/github`
+4. Guardar cambios
 
-#### 7. Sincronizar Base de Datos
+#### Paso 7: Migrar Base de Datos de Producción
+
+Sincronizar el schema de Prisma con tu base de datos de producción:
 
 ```bash
-# Opción A: Desde local apuntando a prod DB
-DATABASE_URL="<prod-url>" npx prisma db push
+# Desde tu máquina local, apuntando a la BD de producción
+DATABASE_URL="tu-database-url-de-produccion" npx prisma db push
+```
 
-# Opción B: Desde Vercel CLI
+O desde Vercel CLI:
+
+```bash
+# Instalar Vercel CLI (si no lo tienes)
+npm i -g vercel
+
+# Descargar variables de entorno de producción
 vercel env pull .env.production
+
+# Ejecutar migración
 npx prisma db push
 ```
 
-### Despliegue Continuo
+#### Paso 8: Verificar Despliegue
 
-Cada push a `main` despliega automáticamente. Para otras branches:
+1. Abrir `https://tu-proyecto.vercel.app`
+2. Hacer login con GitHub
+3. Verificar que funcionen:
+   - ✓ Autenticación con GitHub
+   - ✓ Listado de movimientos
+   - ✓ Creación de movimientos (rol ADMIN)
+   - ✓ Reportes y gráficos
+   - ✓ Gestión de usuarios
 
+---
+
+### Opción 2: CI/CD Automatizado con GitHub Actions (Implementación Adicional)
+
+**Este proyecto incluye integración continua/despliegue continuo como característica adicional.**
+
+El proyecto implementa un pipeline automatizado que ejecuta validaciones antes de cada deploy:
+
+#### Flujo Automatizado
+
+**1. En Pull Requests:**
 ```bash
-# Deploy de rama específica
-git checkout feature/nueva-funcionalidad
+git checkout -b feature/nueva-funcionalidad
 git push origin feature/nueva-funcionalidad
-# Vercel crea preview deployment automáticamente
 ```
+
+GitHub Actions ejecutará automáticamente:
+- ✓ Verificación de tipos TypeScript (`npm run typecheck`)
+- ✓ Análisis de código con ESLint (`npm run lint`)
+- ✓ Build del proyecto (`npm run build`)
+- ✓ Suite de 198 tests (`npm test`)
+
+Vercel creará un **preview deployment** automático para revisar cambios.
+
+**2. Al hacer Merge a `main`:**
+```bash
+# Crear PR y hacer merge en GitHub
+```
+
+- GitHub Actions valida nuevamente todo el pipeline
+- Si todos los checks pasan ✅, Vercel despliega a producción automáticamente
+- Si algún check falla ❌, el deployment no procede
+
+#### Beneficios del CI/CD Implementado
+
+- 🛡️ **Prevención de bugs:** No se puede desplegar código con errores
+- 🧪 **Calidad garantizada:** 198 tests deben pasar antes de producción
+- 👀 **Preview antes de merge:** Revisar cambios en URL temporal
+- 🚀 **Despliegue automático:** Sin intervención manual después del merge
+- 🔄 **Rollback fácil:** Vercel permite volver a versiones anteriores
+
+#### Configuración del Pipeline
+
+El archivo `.github/workflows/ci.yml` define el pipeline:
+
+```yaml
+# Se ejecuta en: push a cualquier rama y pull requests
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - Checkout código
+      - Instalar dependencias
+      - Generar Prisma Client
+      - Typecheck (TypeScript)
+      - Lint (ESLint)
+      - Tests (Jest - 198 tests)
+      - Build (Next.js)
+```
+
+#### Monitoreo de Despliegues
+
+- **GitHub Actions:** Ver estado de CI en la pestaña "Actions"
+- **Vercel Dashboard:** Ver historial de deployments y logs
+- **Vercel CLI:** `vercel logs` para ver logs en tiempo real
+
+---
+
+### Despliegues Subsecuentes
+
+Para actualizar la aplicación desplegada:
+
+**Con CI/CD (Automático):**
+```bash
+git add .
+git commit -m "feat: nueva funcionalidad"
+git push origin main
+# → CI valida → Deploy automático si pasa
+```
+
+**Sin CI/CD (Manual):**
+```bash
+git push origin main
+# → Vercel detecta cambios y despliega automáticamente
+# (Vercel siempre redespliega al hacer push a main)
+```
+
+### Troubleshooting Deploy
+
+#### Error: "Prisma Client not generated"
+```bash
+# Vercel debe ejecutar prisma generate antes del build
+# Verificar que vercel.json tenga:
+"buildCommand": "prisma generate && next build"
+```
+
+#### Error: "Can't reach database server"
+```bash
+# Verificar:
+# 1. DATABASE_URL tiene ?pgbouncer=true
+# 2. Base de datos permite conexiones desde Vercel IPs
+# 3. Connection limit es bajo (=1) para serverless
+```
+
+#### Error: "GitHub OAuth redirect mismatch"
+```bash
+# Actualizar callback URL en GitHub OAuth App:
+# https://tu-proyecto.vercel.app/api/auth/callback/github
+```
+
+### URLs Útiles
+
+- **Vercel Dashboard:** https://vercel.com/dashboard
+- **Vercel Docs:** https://vercel.com/docs
+- **GitHub Actions:** https://github.com/tu-usuario/sistema-gestion-ingresos/actions
+- **Supabase Dashboard:** https://supabase.com/dashboard
 
 ### Rollback
 
@@ -979,14 +1179,20 @@ git push origin main
 ```
 sistema-gestion-ingresos/
 │
-├── __tests__/                      # Suite de pruebas (213 tests)
+├── __tests__/                      # Suite de pruebas (198 tests)
 │   └── domain/
 │       ├── entities/               # Tests de Movement y User
 │       ├── value-objects/          # Tests de VOs (Money, Email, Phone, etc)
 │       └── use-cases/              # Tests de casos de uso
 │
 ├── components/                     # Componentes React
-│   ├── Layout.tsx                  # Layout principal con navegación
+│   ├── auth/                       # Componentes de autenticación
+│   │   ├── RegisterForm.tsx
+│   │   └── RegistrationSuccess.tsx
+│   ├── layout/                     # Layout principal con navegación
+│   │   ├── index.tsx               # Layout wrapper principal
+│   │   ├── Sidebar.tsx             # Barra de navegación lateral
+│   │   └── UserProfile.tsx         # Perfil de usuario en sidebar
 │   ├── LoadingSpinner.tsx          # Componente de loading
 │   ├── movements/                  # Componentes de movimientos
 │   │   ├── MovementForm.tsx
@@ -1044,11 +1250,12 @@ sistema-gestion-ingresos/
 │   ├── server/                     # Clean Architecture (Backend)
 │   │   ├── application/            # Application Layer
 │   │   │   ├── ApplicationService.ts
-│   │   │   ├── errors/
-│   │   │   │   └── AppErrors.ts    # Errores personalizados
 │   │   │   ├── repositories/       # Interfaces (contratos)
 │   │   │   │   ├── IMovementRepository.ts
 │   │   │   │   └── IUserRepository.ts
+│   │   │   ├── shared/             # Utilidades compartidas de aplicación
+│   │   │   │   ├── index.ts
+│   │   │   │   └── Result.ts       # Result Pattern para manejo de errores
 │   │   │   └── use-cases/          # Casos de uso (Commands/Queries)
 │   │   │       ├── movements/
 │   │   │       │   ├── commands/
@@ -1093,6 +1300,8 @@ sistema-gestion-ingresos/
 │   │   └── presentation/           # Presentation Layer
 │   │       ├── docs/
 │   │       │   └── openapi.json    # Especificación OpenAPI 3.0
+│   │       ├── helpers/
+│   │       │   └── ApiResponse.ts  # Helper para respuestas HTTP consistentes
 │   │       ├── middlewares/
 │   │       │   ├── authMiddleware.ts
 │   │       │   ├── roleMiddleware.ts
@@ -1101,6 +1310,7 @@ sistema-gestion-ingresos/
 │   │
 │   ├── utils/                      # Utilidades compartidas
 │   │   ├── errors.ts               # Sistema de errores HTTP
+│   │   ├── fetch.ts                # Utilidades para HTTP fetching
 │   │   └── formatters.ts           # Funciones de formateo
 │   │
 │   ├── constants.ts                # Constantes globales
@@ -1167,6 +1377,141 @@ sistema-gestion-ingresos/
 - [Better Auth Documentation](https://www.better-auth.com/docs)
 - [Clean Architecture (Robert C. Martin)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [Domain-Driven Design (Eric Evans)](https://www.domainlanguage.com/ddd/)
+
+---
+
+## Entregables de la Prueba Técnica
+
+Este proyecto cumple con todos los requisitos solicitados en la prueba técnica:
+
+### ✅ Código Fuente
+
+- **Repositorio GitHub:** Este repositorio contiene el código fuente completo
+- **README completo** con:
+  - ✓ Instrucciones claras para ejecución local (ver [Instalación y Configuración](#instalación-y-configuración))
+  - ✓ Instrucciones detalladas para despliegue en Vercel (ver [Despliegue](#despliegue))
+  - ✓ Documentación de arquitectura, tecnologías y decisiones técnicas
+  - ✓ Guía de API con OpenAPI/Swagger
+
+### ✅ Despliegue en Vercel
+
+- **URL de producción:** Proporcionada en la entrega (reemplazar con tu URL de Vercel)
+- **Método:** Despliegue directo desde GitHub (ver [Despliegue Manual](#opción-1-despliegue-manual-en-vercel-método-oficial))
+- **Bonus implementado:** CI/CD con GitHub Actions para validación automática pre-deploy
+
+### ✅ Funcionalidad Completa
+
+**Gestión de Movimientos (CRUD):**
+- ✓ Crear ingresos/egresos (rol ADMIN)
+- ✓ Listar movimientos con filtros (tipo, fecha, usuario)
+- ✓ Eliminar movimientos (rol ADMIN)
+- ✓ Validación de dominio con Value Objects
+
+**Gestión de Usuarios (CRUD):**
+- ✓ Listar usuarios (rol ADMIN)
+- ✓ Actualizar perfil (nombre, rol, teléfono - rol ADMIN)
+- ✓ Búsqueda y filtros
+- ✓ Estadísticas por usuario
+
+**Reportes:**
+- ✓ Balance actual (ingresos - egresos)
+- ✓ Distribución por tipo (gráfico de dona)
+- ✓ Evolución temporal (gráfico de línea)
+- ✓ Exportación a CSV
+- ✓ Tabla de movimientos recientes
+
+**Autenticación y Autorización:**
+- ✓ Login con GitHub OAuth
+- ✓ Control de acceso basado en roles (RBAC)
+- ✓ Sesiones persistentes en base de datos
+- ✓ Protección de rutas y endpoints
+
+### ✅ Calidad del Código
+
+**Arquitectura:**
+- ✓ Clean Architecture con 4 capas (Domain, Application, Infrastructure, Presentation)
+- ✓ Domain-Driven Design (DDD) con Entities y Value Objects
+- ✓ CQRS pattern (Commands/Queries separados)
+- ✓ Repository Pattern con interfaces
+- ✓ Result Pattern para manejo de errores
+- ✓ Separación frontend/backend (tipos no compartidos)
+
+**Mejores Prácticas:**
+- ✓ TypeScript estricto (`strict: true`)
+- ✓ ESLint configurado con reglas estrictas
+- ✓ Prettier para formateo consistente
+- ✓ Convención de commits clara
+- ✓ Código autodocumentado con nombres descriptivos
+
+**Estructura del Proyecto:**
+- ✓ Organización por capas y features
+- ✓ Separación de concerns (Domain ≠ Infrastructure)
+- ✓ Bajo acoplamiento, alta cohesión
+- ✓ Ver [Estructura del Proyecto](#estructura-del-proyecto) completa
+
+### ✅ Documentación de API
+
+- **Especificación:** OpenAPI 3.0 completa
+- **Interfaz interactiva:** Swagger UI en `/api-docs`
+- **Endpoints documentados:** Autenticación, Movimientos, Usuarios, Reportes
+- **Esquemas:** Requests, responses, errores
+- **Códigos HTTP:** Documentados con ejemplos
+- Ver: [Documentación de API](#documentación-de-api)
+
+### ✅ Diseño y UX
+
+**Interfaz:**
+- ✓ Diseño atractivo con Tailwind CSS y Shadcn UI
+- ✓ Componentes reutilizables (Button, Card, Modal, Table)
+- ✓ Estados de loading y error
+- ✓ Feedback visual al usuario
+- ✓ **Nota:** Diseño no responsivo (según requisitos)
+
+**Usabilidad:**
+- ✓ Navegación clara e intuitiva
+- ✓ Filtros y búsquedas funcionales
+- ✓ Gráficos interactivos (Chart.js)
+- ✓ Exportación de datos (CSV)
+- ✓ Mensajes de error claros
+
+### ✅ Pruebas Unitarias
+
+- **Framework:** Jest con TypeScript
+- **Cobertura:** 198 tests passing
+- **Tiempo ejecución:** ~2.8 segundos
+- **Capas testeadas:**
+  - ✓ Domain (Entities, Value Objects, Domain Events)
+  - ✓ Application (Use Cases)
+  - ✓ Sin dependencias externas (tests aislados)
+- Ver: [Pruebas](#pruebas)
+
+### ✅ Seguridad
+
+**Control de Acceso (RBAC):**
+- ✓ Roles: USER y ADMIN
+- ✓ Middleware de autenticación (`withAuth`)
+- ✓ Middleware de autorización (`withRole`)
+- ✓ Validación en backend (no confía en frontend)
+
+**Protección de Datos:**
+- ✓ Variables de entorno (`.env.local`)
+- ✓ Secretos no expuestos en repositorio
+- ✓ Sesiones en base de datos (no localStorage)
+- ✓ OAuth con GitHub (no passwords en plain text)
+- ✓ Validación de entrada con Value Objects
+- ✓ SQL injection prevenido (Prisma ORM)
+
+### 🎁 Implementaciones Adicionales (No Requeridas)
+
+- **CI/CD con GitHub Actions:** Validación automática (typecheck, lint, build, tests) antes de deploy
+- **Domain Events:** Sistema de eventos para extensibilidad
+- **Result Pattern:** Manejo explícito de errores sin excepciones
+- **Prisma Studio:** Interfaz visual para base de datos
+- **OpenAPI/Swagger:** Documentación interactiva de API
+- **CSV Export:** Exportación de reportes
+- **TypeScript estricto:** Mayor seguridad de tipos
+
+---
 
 ## Licencia
 

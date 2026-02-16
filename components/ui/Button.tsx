@@ -1,5 +1,5 @@
+import { ButtonProps } from '@/lib/client/types/ui.types';
 import { cn } from '@/lib/utils';
-import { ButtonProps } from '@/types/ui.types';
 
 export function Button({
   children,

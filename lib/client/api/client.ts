@@ -3,10 +3,11 @@
  * Centraliza configuración y manejo de errores
  */
 
-export interface ApiResponse<T> {
+export interface ApiResponseFormat<T> {
   success: boolean;
   data?: T;
   error?: string;
+  errors?: string[];
 }
 
 export class ApiError extends Error {
@@ -30,7 +31,7 @@ class ApiClient {
   private async request<T>(
     endpoint: string,
     options?: RequestInit
-  ): Promise<T> {
+  ): Promise<ApiResponseFormat<T>> {
     const url = `${this.baseUrl}${endpoint}`;
 
     try {
@@ -64,25 +65,31 @@ class ApiClient {
     }
   }
 
-  async get<T>(endpoint: string): Promise<T> {
+  async get<T>(endpoint: string): Promise<ApiResponseFormat<T>> {
     return this.request<T>(endpoint, { method: 'GET' });
   }
 
-  async post<T>(endpoint: string, body?: unknown): Promise<T> {
+  async post<T>(
+    endpoint: string,
+    body?: unknown
+  ): Promise<ApiResponseFormat<T>> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: JSON.stringify(body),
     });
   }
 
-  async put<T>(endpoint: string, body?: unknown): Promise<T> {
+  async put<T>(
+    endpoint: string,
+    body?: unknown
+  ): Promise<ApiResponseFormat<T>> {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
     });
   }
 
-  async delete<T>(endpoint: string): Promise<T> {
+  async delete<T>(endpoint: string): Promise<ApiResponseFormat<T>> {
     return this.request<T>(endpoint, { method: 'DELETE' });
   }
 }

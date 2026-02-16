@@ -6,7 +6,6 @@
 export class Money {
   private readonly _amount: number;
   private static readonly MAX_AMOUNT = 999999999.99;
-  private static readonly MIN_AMOUNT = 0.01;
   private static readonly DECIMALS = 2;
 
   private constructor(amount: number) {
@@ -18,14 +17,12 @@ export class Money {
       throw new Error('El monto debe ser un número válido');
     }
 
-    if (amount < Money.MIN_AMOUNT) {
-      throw new Error(`Amount must be greater than ${Money.MIN_AMOUNT - 0.01}`);
+    if (amount < 0) {
+      throw new Error('El monto no puede ser negativo');
     }
 
     if (amount > Money.MAX_AMOUNT) {
-      throw new Error(
-        `Amount must be less than or equal to ${Money.MAX_AMOUNT}`
-      );
+      throw new Error(`El monto no puede ser mayor a ${Money.MAX_AMOUNT}`);
     }
 
     // Redondear a 2 decimales

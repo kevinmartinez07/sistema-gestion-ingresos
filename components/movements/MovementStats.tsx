@@ -1,6 +1,6 @@
 import { StatCard } from '@/components/ui';
+import { MovementStatsProps } from '@/lib/client/types/movement.types';
 import { formatCurrency } from '@/lib/format';
-import { MovementStatsProps } from '@/types/movement.types';
 
 export function MovementStats({
   totalIncome,

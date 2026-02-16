@@ -27,7 +27,6 @@ export class Movement {
     this._type = MovementTypeVO.fromString(typeValue);
     this._amount = Money.create(amountValue);
     this._concept = Concept.create(conceptValue);
-    this.validateDate();
   }
 
   /**
@@ -54,7 +53,6 @@ export class Movement {
       props.updatedAt
     );
 
-    // Disparar evento de creación
     DomainEventDispatcher.dispatch(
       new MovementCreatedEvent(
         movement.id,
@@ -67,12 +65,6 @@ export class Movement {
     );
 
     return movement;
-  }
-
-  private validateDate(): void {
-    if (this.date > new Date()) {
-      throw new Error('Date cannot be in the future');
-    }
   }
 
   get type(): MovementType {

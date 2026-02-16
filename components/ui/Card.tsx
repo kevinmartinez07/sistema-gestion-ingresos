@@ -1,5 +1,9 @@
+import {
+  CardHeaderProps,
+  CardProps,
+  StatCardProps,
+} from '@/lib/client/types/ui.types';
 import { cn } from '@/lib/utils';
-import { CardHeaderProps, CardProps, StatCardProps } from '@/types/ui.types';
 
 export function Card({
   children,

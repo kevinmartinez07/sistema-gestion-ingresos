@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { MovementFiltersProps } from '@/types/movement.types';
+import { MovementFiltersProps } from '@/lib/client/types/movement.types';
 
 export function MovementFilters({
   searchTerm,

@@ -1,6 +1,6 @@
 import { Card, EmptyState } from '@/components/ui';
+import { DistributionChartProps } from '@/lib/client/types/report.types';
 import { formatCurrency } from '@/lib/format';
-import { DistributionChartProps } from '@/types/report.types';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 const COLORS = ['#10b981', '#ef4444'];

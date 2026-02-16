@@ -31,9 +31,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(10000);
-      expect(result.totalExpense).toBe(3000);
-      expect(result.balance).toBe(7000);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(10000);
+      expect(result.value.totalExpense).toBe(3000);
+      expect(result.value.balance).toBe(7000);
     });
 
     it('should calculate balance correctly with negative result', async () => {
@@ -45,9 +46,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(2000);
-      expect(result.totalExpense).toBe(5000);
-      expect(result.balance).toBe(-3000);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(2000);
+      expect(result.value.totalExpense).toBe(5000);
+      expect(result.value.balance).toBe(-3000);
     });
 
     it('should calculate balance correctly when both are zero', async () => {
@@ -59,9 +61,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(0);
-      expect(result.totalExpense).toBe(0);
-      expect(result.balance).toBe(0);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(0);
+      expect(result.value.totalExpense).toBe(0);
+      expect(result.value.balance).toBe(0);
     });
 
     it('should calculate balance correctly with only income', async () => {
@@ -73,9 +76,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(5000);
-      expect(result.totalExpense).toBe(0);
-      expect(result.balance).toBe(5000);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(5000);
+      expect(result.value.totalExpense).toBe(0);
+      expect(result.value.balance).toBe(5000);
     });
 
     it('should calculate balance correctly with only expenses', async () => {
@@ -87,9 +91,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(0);
-      expect(result.totalExpense).toBe(3000);
-      expect(result.balance).toBe(-3000);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(0);
+      expect(result.value.totalExpense).toBe(3000);
+      expect(result.value.balance).toBe(-3000);
     });
 
     it('should calculate balance correctly with decimal values', async () => {
@@ -101,9 +106,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(1500.75);
-      expect(result.totalExpense).toBe(750.25);
-      expect(result.balance).toBeCloseTo(750.5, 2);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(1500.75);
+      expect(result.value.totalExpense).toBe(750.25);
+      expect(result.value.balance).toBeCloseTo(750.5, 2);
     });
 
     it('should calculate balance correctly with large numbers', async () => {
@@ -115,9 +121,10 @@ describe('GetBalanceUseCase', () => {
 
       const result = await useCase.execute();
 
-      expect(result.totalIncome).toBe(1000000.5);
-      expect(result.totalExpense).toBe(500000.25);
-      expect(result.balance).toBeCloseTo(500000.25, 2);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.totalIncome).toBe(1000000.5);
+      expect(result.value.totalExpense).toBe(500000.25);
+      expect(result.value.balance).toBeCloseTo(500000.25, 2);
     });
 
     it('should pass userId parameter to repository when provided', async () => {

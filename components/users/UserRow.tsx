@@ -1,6 +1,6 @@
 import { Badge, Button, TableCell, TableRow } from '@/components/ui';
+import { UserRowProps } from '@/lib/client/types/user.types';
 import { formatDateTime } from '@/lib/format';
-import { UserRowProps } from '@/types/user.types';
 import Image from 'next/image';
 
 export function UserRow({

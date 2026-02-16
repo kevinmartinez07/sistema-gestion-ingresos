@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AlertModal, ConfirmModal } from '@/components/ui';
 import {
@@ -8,9 +8,9 @@ import {
   UserTable,
 } from '@/components/users';
 import { authClient } from '@/lib/auth/client';
+import { ExtendedUser, UserResponseDTO } from '@/lib/client/types/user.types';
 import { parseHttpError } from '@/lib/utils/errors';
 import { del, get } from '@/lib/utils/fetch';
-import { ExtendedUser, UserResponseDTO } from '@/types/user.types';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
