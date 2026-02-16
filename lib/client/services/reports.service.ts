@@ -3,8 +3,8 @@
  * Separa la lógica de API del componente
  */
 
-import { MovementResponseDTO } from '@/types/movement.types';
-import { apiClient, ApiResponse } from '../api/client';
+import { MovementResponseDTO } from '@/lib/client/types/movement.types';
+import { apiClient } from '../api/client';
 
 export interface ReportData {
   balance: number;
@@ -31,7 +31,7 @@ class ReportsService {
    * Obtener datos del reporte
    */
   async getReportData(): Promise<ReportData> {
-    const response = await apiClient.get<ApiResponse<ReportData>>('/reports');
+    const response = await apiClient.get<ReportData>('/reports');
 
     if (!response.data) {
       throw new Error('No data returned from server');

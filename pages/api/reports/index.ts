@@ -1,5 +1,6 @@
 import { appService } from '@/lib/server/application/ApplicationService';
 import { ROLES } from '@/lib/server/domain/value-objects/Role';
+import { ApiResponse } from '@/lib/server/presentation/helpers/ApiResponse';
 import { withAuth } from '@/lib/server/presentation/middlewares/withAuth';
 import { withErrorHandling } from '@/lib/server/presentation/middlewares/withErrorHandling';
 import { withRole } from '@/lib/server/presentation/middlewares/withRole';
@@ -9,10 +10,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const { format } = req.query;
 
-    const [balance, movements] = await Promise.all([
+    const [balanceResult, movementsResult] = await Promise.all([
       appService.getBalance.execute(),
       appService.getMovements.execute(),
     ]);
+
+    if (balanceResult.isFailure) {
+      return res.status(500).json(ApiResponse.error(balanceResult.error));
+    }
+
+    if (movementsResult.isFailure) {
+      return res.status(500).json(ApiResponse.error(movementsResult.error));
+    }
+
+    const balance = balanceResult.value;
+    const movements = movementsResult.value;
 
     if (format === 'csv') {
       const csvHeader =
@@ -47,9 +59,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).send('\uFEFF' + csv);
     }
 
-    return res.status(200).json({
-      success: true,
-      data: {
+    return res.status(200).json(
+      ApiResponse.success({
         balance: {
           totalIncome: balance.totalIncome,
           totalExpense: balance.totalExpense,
@@ -64,11 +75,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           userId: m.userId,
           user: m.user,
         })),
-      },
-    });
+      })
+    );
   }
 
-  return res.status(405).json({ success: false, error: 'Method Not Allowed' });
+  return res.status(405).json(ApiResponse.error('Método no permitido'));
 };
 
 export default withErrorHandling(withAuth(withRole([ROLES.ADMIN])(handler)));

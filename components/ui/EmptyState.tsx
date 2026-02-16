@@ -1,4 +1,4 @@
-import { EmptyStateProps } from '@/types/ui.types';
+import { EmptyStateProps } from '@/lib/client/types/ui.types';
 
 export function EmptyState({
   icon,

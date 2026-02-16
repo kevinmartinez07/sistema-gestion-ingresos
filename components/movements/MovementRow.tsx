@@ -1,6 +1,6 @@
 import { Badge, Button, TableCell, TableRow } from '@/components/ui';
+import { MovementRowProps } from '@/lib/client/types/movement.types';
 import { formatCurrency, formatDateShort } from '@/lib/format';
-import { MovementRowProps } from '@/types/movement.types';
 
 export function MovementRow({ movement, isAdmin, onDelete }: MovementRowProps) {
   return (

@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils';
 import {
   AlertModalProps,
   ConfirmModalProps,
   ModalProps,
-} from '@/types/ui.types';
+} from '@/lib/client/types/ui.types';
+import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
 
 export function Modal({

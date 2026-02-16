@@ -7,9 +7,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { authClient } from '@/lib/auth/client';
+import { UserEditFormProps } from '@/lib/client/types/user.types';
 import { parseHttpError } from '@/lib/utils/errors';
 import { put } from '@/lib/utils/fetch';
-import { UserEditFormProps } from '@/types/user.types';
 import { useEffect, useState } from 'react';
 
 export function UserEditForm({
@@ -110,9 +110,7 @@ export function UserEditForm({
                   />
                 </svg>
                 <div>
-                  <p className='font-semibold mb-1'>
-                    ⚠️ Advertencia importante
-                  </p>
+                  <p className='font-semibold mb-1'>Advertencia importante</p>
                   <p>
                     Estás cambiando tu propio rol de Administrador a Usuario. Tu
                     sesión se cerrará automáticamente y perderás los privilegios

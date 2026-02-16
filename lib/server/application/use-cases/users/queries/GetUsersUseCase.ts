@@ -1,17 +1,15 @@
 import { IUserRepository } from '../../../repositories/IUserRepository';
+import { Result } from '../../../shared/Result';
 import { GetUsersResponse } from '../dtos/GetUsersResponse';
 
-/**
- * Query: Obtener usuarios
- * Responsabilidad: Consultar información de usuarios
- */
+/** Get users query */
 export class GetUsersUseCase {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(): Promise<GetUsersResponse[]> {
+  async execute(): Promise<Result<GetUsersResponse[]>> {
     const users = await this.userRepository.findAll();
 
-    return users.map((user) => ({
+    const response = users.map((user) => ({
       id: user.id,
       name: user.name,
       email: user.email,
@@ -22,6 +20,8 @@ export class GetUsersUseCase {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }));
+
+    return Result.ok(response);
   }
 
   async getById(id: string): Promise<GetUsersResponse | null> {

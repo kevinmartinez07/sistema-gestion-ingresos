@@ -346,10 +346,8 @@ describe('User Entity', () => {
     it('should not allow direct modification of email', () => {
       const user = User.create(validUserData);
 
-      // Email VO is readonly
       expect(user.email).toBe('john@example.com');
-      // TypeScript prevents modification of readonly fields
-      // In runtime, the property can be set but the VO itself is immutable
+      
       const originalEmail = user.email;
       expect(originalEmail).toBe('john@example.com');
     });

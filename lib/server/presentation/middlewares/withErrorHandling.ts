@@ -1,4 +1,4 @@
-import { AppError } from '@/lib/server/application/errors/AppErrors';
+import { ApiResponse } from '@/lib/server/presentation/helpers/ApiResponse';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 export const withErrorHandling =
@@ -6,15 +6,7 @@ export const withErrorHandling =
   async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       return await handler(req, res);
-    } catch (error: unknown) {
-      if (error instanceof AppError) {
-        return res
-          .status(error.status)
-          .json({ code: error.code, message: error.message });
-      }
-
-      return res
-        .status(500)
-        .json({ code: 'INTERNAL_ERROR', message: 'Internal Server Error' });
+    } catch {
+      return res.status(500).json(ApiResponse.error('Internal Server Error'));
     }
   };

@@ -4,12 +4,12 @@
  */
 
 import {
-  CreateMovementDTO,
-  MovementFilters,
-  movementsService,
-  MovementStats,
+    CreateMovementDTO,
+    MovementFilters,
+    movementsService,
+    MovementStats,
 } from '@/lib/client/services/movements.service';
-import { MovementResponseDTO } from '@/types/movement.types';
+import { MovementResponseDTO } from '@/lib/client/types/movement.types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface UseMovementsOptions {

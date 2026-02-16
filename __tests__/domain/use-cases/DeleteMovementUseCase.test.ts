@@ -1,4 +1,3 @@
-import { NotFoundError } from '@/lib/server/application/errors/AppErrors';
 import { IMovementRepository } from '@/lib/server/application/repositories/IMovementRepository';
 import { DeleteMovementUseCase } from '@/lib/server/application/use-cases/movements/commands/DeleteMovementUseCase';
 import { DeleteMovementRequest } from '@/lib/server/application/use-cases/movements/dtos/DeleteMovementRequest';
@@ -9,7 +8,6 @@ class MockMovementRepository implements IMovementRepository {
   private movements: Map<string, Movement> = new Map();
 
   constructor() {
-    // Crear movimientos de prueba
     const movement1 = new Movement(
       'movement-123',
       'INCOME',
@@ -88,30 +86,33 @@ describe('DeleteMovementUseCase', () => {
         id: 'movement-123',
       };
 
-      await useCase.execute(request);
+      const result = await useCase.execute(request);
 
-      // Verify movement was deleted
+      expect(result.isSuccess).toBe(true);
+
       const deletedMovement = await mockRepository.findById('movement-123');
       expect(deletedMovement).toBeNull();
     });
 
-    it('should throw NotFoundError when movement does not exist', async () => {
+    it('should return failure when movement does not exist', async () => {
       const request: DeleteMovementRequest = {
         id: 'non-existent-movement',
       };
 
-      await expect(useCase.execute(request)).rejects.toThrow(NotFoundError);
-      await expect(useCase.execute(request)).rejects.toThrow(
-        'Movement not found'
-      );
+      const result = await useCase.execute(request);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.errors).toContain('Movimiento no encontrado');
     });
 
     it('should delete income movement', async () => {
       const request: DeleteMovementRequest = {
-        id: 'movement-123', // Income movement
+        id: 'movement-123',
       };
 
-      await useCase.execute(request);
+      const result = await useCase.execute(request);
+
+      expect(result.isSuccess).toBe(true);
 
       const deletedMovement = await mockRepository.findById('movement-123');
       expect(deletedMovement).toBeNull();
@@ -119,10 +120,12 @@ describe('DeleteMovementUseCase', () => {
 
     it('should delete expense movement', async () => {
       const request: DeleteMovementRequest = {
-        id: 'movement-456', // Expense movement
+        id: 'movement-456',
       };
 
-      await useCase.execute(request);
+      const result = await useCase.execute(request);
+
+      expect(result.isSuccess).toBe(true);
 
       const deletedMovement = await mockRepository.findById('movement-456');
       expect(deletedMovement).toBeNull();
@@ -133,48 +136,53 @@ describe('DeleteMovementUseCase', () => {
         id: 'movement-123',
       };
 
-      await useCase.execute(request);
+      const result = await useCase.execute(request);
 
-      // Verify first movement was deleted
+      expect(result.isSuccess).toBe(true);
+
       const deletedMovement = await mockRepository.findById('movement-123');
       expect(deletedMovement).toBeNull();
 
-      // Verify second movement still exists
       const existingMovement = await mockRepository.findById('movement-456');
       expect(existingMovement).toBeDefined();
       expect(existingMovement?.id).toBe('movement-456');
     });
 
-    it('should throw error when trying to delete same movement twice', async () => {
+    it('should return failure when trying to delete same movement twice', async () => {
       const request: DeleteMovementRequest = {
         id: 'movement-123',
       };
 
-      // First deletion should succeed
-      await useCase.execute(request);
+      const firstResult = await useCase.execute(request);
+      expect(firstResult.isSuccess).toBe(true);
 
-      // Second deletion should fail
-      await expect(useCase.execute(request)).rejects.toThrow(NotFoundError);
+      const secondResult = await useCase.execute(request);
+      expect(secondResult.isFailure).toBe(true);
+      expect(secondResult.errors).toContain('Movimiento no encontrado');
     });
 
-    it('should not throw error when deletion is successful (void return)', async () => {
+    it('should return success with void result when deletion is successful', async () => {
       const request: DeleteMovementRequest = {
         id: 'movement-123',
       };
 
       const result = await useCase.execute(request);
 
-      expect(result).toBeUndefined();
+      expect(result.isSuccess).toBe(true);
+      expect(result.value).toBeUndefined();
     });
   });
 
   describe('Validation', () => {
-    it('should validate movement existence before deletion', async () => {
+    it('should return failure when movement does not exist', async () => {
       const request: DeleteMovementRequest = {
         id: 'invalid-id',
       };
 
-      await expect(useCase.execute(request)).rejects.toThrow(NotFoundError);
+      const result = await useCase.execute(request);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.errors).toContain('Movimiento no encontrado');
     });
   });
 });

@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import {
   DistributionChart,
@@ -8,11 +8,11 @@ import {
 } from '@/components/reports';
 import { AlertModal, Button } from '@/components/ui';
 import { authClient } from '@/lib/auth/client';
+import { MovementResponseDTO } from '@/lib/client/types/movement.types';
+import { BalanceResponseDTO } from '@/lib/client/types/report.types';
+import { ExtendedUser } from '@/lib/client/types/user.types';
 import { parseHttpError } from '@/lib/utils/errors';
 import { get } from '@/lib/utils/fetch';
-import { MovementResponseDTO } from '@/types/movement.types';
-import { BalanceResponseDTO } from '@/types/report.types';
-import { ExtendedUser } from '@/types/user.types';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 

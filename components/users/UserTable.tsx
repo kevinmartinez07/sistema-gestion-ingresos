@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
-import { UserTableProps } from '@/types/user.types';
+import { UserTableProps } from '@/lib/client/types/user.types';
 import { UserRow } from './UserRow';
 
 export function UserTable({

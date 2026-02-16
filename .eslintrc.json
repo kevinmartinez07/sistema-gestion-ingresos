@@ -33,7 +33,7 @@
     "no-console": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "complexity": ["warn", 15],
+    "complexity": ["warn", 10],
     "eqeqeq": "error",
     "prefer-arrow-callback": "error",
     "arrow-body-style": "off",

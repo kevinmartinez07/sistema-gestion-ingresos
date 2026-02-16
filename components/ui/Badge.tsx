@@ -1,5 +1,5 @@
+import { BadgeProps } from '@/lib/client/types/ui.types';
 import { cn } from '@/lib/utils';
-import { BadgeProps } from '@/types/ui.types';
 
 export function Badge({
   children,

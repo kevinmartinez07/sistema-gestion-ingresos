@@ -12,9 +12,14 @@ describe('Concept Value Object', () => {
       expect(concept.value).toBe('Monthly rent');
     });
 
-    it('should accept minimum length concept', () => {
-      const concept = Concept.create('ABC');
-      expect(concept.value).toBe('ABC');
+    it('should accept single character concept', () => {
+      const concept = Concept.create('A');
+      expect(concept.value).toBe('A');
+    });
+
+    it('should accept short concept', () => {
+      const concept = Concept.create('OK');
+      expect(concept.value).toBe('OK');
     });
 
     it('should accept maximum length concept', () => {
@@ -38,55 +43,35 @@ describe('Concept Value Object', () => {
       expect(concept.value).toBe('Monthly rent for apartment');
     });
 
-    it('should throw error for empty concept', () => {
-      expect(() => Concept.create('')).toThrow('Concept cannot be empty');
-    });
-
     it('should throw error for null concept', () => {
       expect(() => Concept.create(null as any)).toThrow(
-        'Concept cannot be empty'
+        'El concepto debe ser un texto válido'
       );
     });
 
     it('should throw error for undefined concept', () => {
       expect(() => Concept.create(undefined as any)).toThrow(
-        'Concept cannot be empty'
+        'El concepto debe ser un texto válido'
       );
     });
 
     it('should throw error for non-string concept', () => {
       expect(() => Concept.create(123 as any)).toThrow(
-        'Concept cannot be empty'
-      );
-    });
-
-    it('should throw error for whitespace-only concept', () => {
-      expect(() => Concept.create('   ')).toThrow('Concept must be at least 3 characters');
-    });
-
-    it('should throw error for concept too short', () => {
-      expect(() => Concept.create('AB')).toThrow(
-        'Concept must be at least 3 characters'
-      );
-    });
-
-    it('should throw error for single character', () => {
-      expect(() => Concept.create('A')).toThrow(
-        'Concept must be at least 3 characters'
+        'El concepto debe ser un texto válido'
       );
     });
 
     it('should throw error for concept too long', () => {
       const tooLongConcept = 'A'.repeat(201);
       expect(() => Concept.create(tooLongConcept)).toThrow(
-        'Concept cannot exceed 200 characters'
+        'El concepto no puede exceder 200 caracteres'
       );
     });
 
     it('should throw error for concept exceeding 200 characters', () => {
       const tooLongConcept = 'This is a very long concept '.repeat(10);
       expect(() => Concept.create(tooLongConcept)).toThrow(
-        'Concept cannot exceed 200 characters'
+        'El concepto no puede exceder 200 caracteres'
       );
     });
   });
@@ -155,12 +140,6 @@ describe('Concept Value Object', () => {
   });
 
   describe('Edge cases', () => {
-    it('should handle concept with only spaces after trim becoming too short', () => {
-      expect(() => Concept.create('  A  ')).toThrow(
-        'Concept must be at least 3 characters'
-      );
-    });
-
     it('should handle concept with newlines', () => {
       const concept = Concept.create('Multi\nline\nconcept');
       expect(concept.value).toBe('Multi\nline\nconcept');

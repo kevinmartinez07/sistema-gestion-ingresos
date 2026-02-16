@@ -1,5 +1,5 @@
 import { StatCard } from '@/components/ui';
-import { UserStatsProps } from '@/types/user.types';
+import { UserStatsProps } from '@/lib/client/types/user.types';
 
 export function UserStats({ total, admins, regularUsers }: UserStatsProps) {
   return (

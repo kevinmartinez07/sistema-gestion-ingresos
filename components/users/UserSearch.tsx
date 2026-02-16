@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui';
-import { UserSearchProps } from '@/types/user.types';
+import { UserSearchProps } from '@/lib/client/types/user.types';
 
 export function UserSearch({ searchTerm, onSearchChange }: UserSearchProps) {
   return (

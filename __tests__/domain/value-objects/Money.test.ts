@@ -12,7 +12,12 @@ describe('Money Value Object', () => {
       expect(money.amount).toBe(100.56);
     });
 
-    it('should accept minimum amount', () => {
+    it('should accept zero amount', () => {
+      const money = Money.create(0);
+      expect(money.amount).toBe(0);
+    });
+
+    it('should accept minimum positive amount', () => {
       const money = Money.create(0.01);
       expect(money.amount).toBe(0.01);
     });
@@ -22,17 +27,13 @@ describe('Money Value Object', () => {
       expect(money.amount).toBe(999999999.99);
     });
 
-    it('should throw error for zero amount', () => {
-      expect(() => Money.create(0)).toThrow('Amount must be greater than 0');
-    });
-
     it('should throw error for negative amount', () => {
-      expect(() => Money.create(-10)).toThrow('Amount must be greater than 0');
+      expect(() => Money.create(-10)).toThrow('El monto no puede ser negativo');
     });
 
     it('should throw error for amount exceeding maximum', () => {
       expect(() => Money.create(1000000000)).toThrow(
-        'Amount must be less than or equal to 999999999.99'
+        'El monto no puede ser mayor a 999999999.99'
       );
     });
 

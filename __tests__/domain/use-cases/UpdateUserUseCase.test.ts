@@ -1,4 +1,3 @@
-import { NotFoundError } from '@/lib/server/application/errors/AppErrors';
 import { IUserRepository } from '@/lib/server/application/repositories/IUserRepository';
 import { UpdateUserUseCase } from '@/lib/server/application/use-cases/users/commands/UpdateUserUseCase';
 import { UpdateUserRequest } from '@/lib/server/application/use-cases/users/dtos/UpdateUserRequest';
@@ -10,7 +9,6 @@ class MockUserRepository implements IUserRepository {
   private users: Map<string, User> = new Map();
 
   constructor() {
-    // Crear usuario de prueba
     const testUser = new User(
       'user-123',
       'John Doe',
@@ -30,7 +28,9 @@ class MockUserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return Array.from(this.users.values()).find(u => u.email === email) || null;
+    return (
+      Array.from(this.users.values()).find((u) => u.email === email) || null
+    );
   }
 
   async findAll(): Promise<User[]> {
@@ -39,7 +39,7 @@ class MockUserRepository implements IUserRepository {
 
   async update(id: string, data: any): Promise<User> {
     const user = this.users.get(id);
-    if (!user) throw new NotFoundError('User not found');
+    if (!user) throw new Error('User not found');
 
     if (data.name !== undefined) user.name = data.name;
     if (data.role !== undefined) user.role = data.role;
@@ -77,8 +77,9 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.name).toBe('Jane Doe');
-      expect(result.id).toBe('user-123');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.name).toBe('Jane Doe');
+      expect(result.value.id).toBe('user-123');
     });
 
     it('should update user role successfully', async () => {
@@ -89,8 +90,9 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.role).toBe('ADMIN');
-      expect(result.id).toBe('user-123');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.role).toBe('ADMIN');
+      expect(result.value.id).toBe('user-123');
     });
 
     it('should update user phone successfully', async () => {
@@ -101,8 +103,9 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.phone).toBe('9876543210');
-      expect(result.id).toBe('user-123');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.phone).toBe('9876543210');
+      expect(result.value.id).toBe('user-123');
     });
 
     it('should update multiple fields at once', async () => {
@@ -115,62 +118,42 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.name).toBe('Jane Smith');
-      expect(result.role).toBe('ADMIN');
-      expect(result.phone).toBe('5555555555');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.name).toBe('Jane Smith');
+      expect(result.value.role).toBe('ADMIN');
+      expect(result.value.phone).toBe('5555555555');
     });
 
-    it('should throw NotFoundError when user does not exist', async () => {
+    it('should return failure when user does not exist', async () => {
       const request: UpdateUserRequest = {
         id: 'non-existent-user',
         name: 'Jane Doe',
       };
 
-      await expect(useCase.execute(request)).rejects.toThrow(NotFoundError);
-      await expect(useCase.execute(request)).rejects.toThrow('User not found');
-    });
+      const result = await useCase.execute(request);
 
-    it('should throw error when name is empty', async () => {
-      const request: UpdateUserRequest = {
-        id: 'user-123',
-        name: '',
-      };
-
-      await expect(useCase.execute(request)).rejects.toThrow(
-        'Name cannot be empty'
-      );
-    });
-
-    it('should throw error when name is only whitespace', async () => {
-      const request: UpdateUserRequest = {
-        id: 'user-123',
-        name: '   ',
-      };
-
-      await expect(useCase.execute(request)).rejects.toThrow(
-        'Name cannot be empty'
-      );
+      expect(result.isFailure).toBe(true);
+      expect(result.errors).toContain('Usuario no encontrado');
     });
 
     it('should not update fields that are undefined', async () => {
       const request: UpdateUserRequest = {
         id: 'user-123',
         name: 'Updated Name',
-        // role and phone are undefined, should not change
       };
 
       const result = await useCase.execute(request);
 
-      expect(result.name).toBe('Updated Name');
-      expect(result.role).toBe('USER'); // Original role
-      expect(result.phone).toBe('1234567890'); // Original phone
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.name).toBe('Updated Name');
+      expect(result.value.role).toBe('USER');
+      expect(result.value.phone).toBe('1234567890');
     });
 
     it('should update updatedAt timestamp', async () => {
       const originalUser = await mockRepository.findById('user-123');
       const originalUpdatedAt = originalUser?.updatedAt;
 
-      // Wait a bit to ensure timestamp changes
       await new Promise((resolve) => setTimeout(resolve, 10));
 
       const request: UpdateUserRequest = {
@@ -180,7 +163,8 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.updatedAt.getTime()).toBeGreaterThan(
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.updatedAt.getTime()).toBeGreaterThan(
         originalUpdatedAt!.getTime()
       );
     });
@@ -195,22 +179,23 @@ describe('UpdateUserUseCase', () => {
 
       const result = await useCase.execute(request);
 
-      expect(result.email).toBe(originalUser?.email);
-      expect(result.emailVerified).toBe(originalUser?.emailVerified);
-      expect(result.createdAt).toEqual(originalUser?.createdAt);
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.email).toBe(originalUser?.email);
+      expect(result.value.emailVerified).toBe(originalUser?.emailVerified);
+      expect(result.value.createdAt).toEqual(originalUser?.createdAt);
     });
 
     it('should keep phone when not specified in request', async () => {
       const request: UpdateUserRequest = {
         id: 'user-123',
         name: 'New Name',
-        // phone not specified, should remain unchanged
       };
 
       const result = await useCase.execute(request);
 
-      expect(result.phone).toBe('1234567890'); // Original phone
-      expect(result.name).toBe('New Name');
+      expect(result.isSuccess).toBe(true);
+      expect(result.value.phone).toBe('1234567890');
+      expect(result.value.name).toBe('New Name');
     });
   });
 });

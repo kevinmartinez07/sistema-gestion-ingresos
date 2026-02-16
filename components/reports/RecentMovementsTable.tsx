@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
+import { RecentMovementsTableProps } from '@/lib/client/types/report.types';
 import { formatCurrency, formatDateShort } from '@/lib/format';
-import { RecentMovementsTableProps } from '@/types/report.types';
 
 export function RecentMovementsTable({ movements }: RecentMovementsTableProps) {
   return (

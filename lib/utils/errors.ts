@@ -193,7 +193,7 @@ export function parseHttpError(error: unknown): ParsedError {
   if (error instanceof AppError) {
     return {
       title: getErrorTitle(error.statusCode),
-      message: error.userMessage,
+      message: error.message || error.userMessage,
       type: error.statusCode >= 500 ? 'error' : 'warning',
       canRetry: error.statusCode >= 500,
     };

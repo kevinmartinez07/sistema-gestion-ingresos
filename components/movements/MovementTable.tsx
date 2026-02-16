@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
-import { MovementTableProps } from '@/types/movement.types';
+import { MovementTableProps } from '@/lib/client/types/movement.types';
 import { MovementRow } from './MovementRow';
 
 export function MovementTable({

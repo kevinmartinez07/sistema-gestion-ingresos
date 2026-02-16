@@ -3,8 +3,8 @@
  * Separa la lógica de API del componente
  */
 
-import { UserResponseDTO } from '@/types/user.types';
-import { apiClient, ApiResponse } from '../api/client';
+import { UserResponseDTO } from '@/lib/client/types/user.types';
+import { apiClient } from '../api/client';
 
 export interface UpdateUserDTO {
   name?: string;
@@ -23,8 +23,7 @@ class UsersService {
    * Obtener todos los usuarios
    */
   async getUsers(): Promise<UserResponseDTO[]> {
-    const response =
-      await apiClient.get<ApiResponse<UserResponseDTO[]>>('/users');
+    const response = await apiClient.get<UserResponseDTO[]>('/users');
     return response.data || [];
   }
 
@@ -32,10 +31,7 @@ class UsersService {
    * Actualizar un usuario por ID
    */
   async updateUser(id: string, data: UpdateUserDTO): Promise<UserResponseDTO> {
-    const response = await apiClient.put<ApiResponse<UserResponseDTO>>(
-      `/users/${id}`,
-      data
-    );
+    const response = await apiClient.put<UserResponseDTO>(`/users/${id}`, data);
 
     if (!response.data) {
       throw new Error('No data returned from server');
@@ -48,7 +44,7 @@ class UsersService {
    * Eliminar un usuario por ID
    */
   async deleteUser(id: string): Promise<void> {
-    await apiClient.delete<ApiResponse<void>>(`/users/${id}`);
+    await apiClient.delete<void>(`/users/${id}`);
   }
 
   /**

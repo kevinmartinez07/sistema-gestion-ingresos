@@ -1,6 +1,6 @@
 import { Card, EmptyState } from '@/components/ui';
+import { MonthlyChartProps } from '@/lib/client/types/report.types';
 import { formatCurrency } from '@/lib/format';
-import { MonthlyChartProps } from '@/types/report.types';
 import {
   Bar,
   BarChart,

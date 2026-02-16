@@ -3,8 +3,8 @@
  * Separa la lógica de API del componente
  */
 
-import { MovementResponseDTO } from '@/types/movement.types';
-import { apiClient, ApiResponse } from '../api/client';
+import { MovementResponseDTO } from '@/lib/client/types/movement.types';
+import { apiClient } from '../api/client';
 
 export interface CreateMovementDTO {
   type: 'INCOME' | 'EXPENSE';
@@ -42,8 +42,7 @@ class MovementsService {
     const query = queryParams.toString();
     const endpoint = `/movements${query ? `?${query}` : ''}`;
 
-    const response =
-      await apiClient.get<ApiResponse<MovementResponseDTO[]>>(endpoint);
+    const response = await apiClient.get<MovementResponseDTO[]>(endpoint);
     return response.data || [];
   }
 
@@ -51,7 +50,7 @@ class MovementsService {
    * Crear un nuevo movimiento
    */
   async createMovement(data: CreateMovementDTO): Promise<MovementResponseDTO> {
-    const response = await apiClient.post<ApiResponse<MovementResponseDTO>>(
+    const response = await apiClient.post<MovementResponseDTO>(
       '/movements',
       data
     );
@@ -67,7 +66,7 @@ class MovementsService {
    * Eliminar un movimiento por ID
    */
   async deleteMovement(id: string): Promise<void> {
-    await apiClient.delete<ApiResponse<void>>(`/movements/${id}`);
+    await apiClient.delete<void>(`/movements/${id}`);
   }
 
   /**
